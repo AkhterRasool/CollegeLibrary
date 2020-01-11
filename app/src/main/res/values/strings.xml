@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">CollegeLibrary</string>
+    <string name="label_name_of_book">Name of Book:</string>
+    <string name="search">Search</string>
+    <string name="clear">Clear</string>
+    <string name="empty_string"></string>
 </resources>
