@@ -6,13 +6,28 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="15dp"
-            android:textAlignment="textStart"
-            android:gravity="start"
+            android:padding="10dp"
             android:textSize="20dp"
-            android:id="@+id/result_text"/>
+            android:id="@+id/result_activity_title"
+            android:textStyle="bold"/>
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical"
+            android:layout_below="@id/result_activity_title">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="15dp"
+                android:textAlignment="textStart"
+                android:gravity="start"
+                android:textSize="20dp"
+                android:id="@+id/result_text"/>
+        </ScrollView>
+
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

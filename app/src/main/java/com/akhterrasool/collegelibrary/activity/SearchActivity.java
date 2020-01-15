@@ -1,40 +1,34 @@
 package com.akhterrasool.collegelibrary.activity;
 
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.akhterrasool.collegelibrary.R;
 import com.akhterrasool.collegelibrary.app.App;
+import com.akhterrasool.collegelibrary.app.BookSearchType;
+import com.akhterrasool.collegelibrary.server.AuthorSearchType;
+import com.akhterrasool.collegelibrary.server.TitleSearchType;
 import com.akhterrasool.collegelibrary.util.Client;
-import com.akhterrasool.collegelibrary.util.ToastMessage;
-import com.android.volley.Response;
-import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.Request;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-public class SearchActivity extends AppCompatActivity {
-
-    private static final String JSON_MESSAGE_KEY = "message";
-    private static final String JSON_KEY_TITLE = "title";
-    private static final String JSON_KEY_AUTHOR = "author";
-    private static final String JSON_KEY_BOOK_LOCATION = "bookLocation";
-    private static final String JSON_KEY_RACK = "rack";
-    private static final String JSON_KEY_ROW = "row";
-    private static final String JSON_KEY_COL = "col";
-    public static final String ROW_SEPARATOR = "------------------------------------";
+public class SearchActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private EditText bookTextField;
     private Button searchButton;
     private Button clearButton;
+    private Spinner spinner;
+    private TextView bookTextFieldLabel;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -46,6 +40,10 @@ public class SearchActivity extends AppCompatActivity {
         bookTextField = findViewById(R.id.book_text_field);
         searchButton = findViewById(R.id.search_button);
         clearButton = findViewById(R.id.clear_button);
+        bookTextFieldLabel = findViewById(R.id.book_text_field_label);
+        spinner = findViewById(R.id.search_type_drop_down);
+
+        initializeSearchTypeDropDown();
 
         searchButton.setOnClickListener(view -> {
             String book = bookTextField.getText().toString();
@@ -60,54 +58,48 @@ public class SearchActivity extends AppCompatActivity {
         });
     }
 
+    private void initializeSearchTypeDropDown() {
+        ArrayAdapter<CharSequence> spinnerMenuItemSource = ArrayAdapter.createFromResource(
+            App.getContext(), R.array.search_type_array, android.R.layout.simple_spinner_item);
+        spinnerMenuItemSource.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(spinnerMenuItemSource);
+        spinner.setOnItemSelectedListener(this);
+    }
+
     private void sendSearchRequest(String book) {
         Log.i(SearchActivity.class.getName(), "User has entered '" + book + "'");
+        String selectedSearchType = spinner.getSelectedItem().toString();
         String url =
-                String.format("%s/book/%s", getResources().getString(R.string.root_url), book);
+                String.format("%s/search/%s/%s", getResources().getString(R.string.root_url),
+                        selectedSearchType.toLowerCase(), book);
         Log.i(SearchActivity.class.getName(), "Navigating to " + url);
 
-        Response.Listener<JSONObject> responseListener = response -> {
-            //Send the response to a ResultActivity
-            try {
-                String title = response.getString(JSON_KEY_TITLE);
-                String author = response.getString(JSON_KEY_AUTHOR);
-                JSONArray bookLocations = response.getJSONArray(JSON_KEY_BOOK_LOCATION);
+        Request request = null;
+        switch (BookSearchType.valueOf(selectedSearchType.toUpperCase())) {
+            case TITLE:
+                request = new TitleSearchType(url).getRequest();
+                break;
+            case AUTHOR:
+                request = new AuthorSearchType(url).getRequest();
+                break;
+        }
 
-                StringBuilder locations = new StringBuilder("");
-
-                for (int i = 0; i < bookLocations.length(); i++) {
-                    JSONObject bookLocation = bookLocations.getJSONObject(i);
-                    int rack = bookLocation.getInt(JSON_KEY_RACK);
-                    int row = bookLocation.getInt(JSON_KEY_ROW);
-                    int col = bookLocation.getInt(JSON_KEY_COL);
-                    locations.append(String.format("Rack - %d%nRow - %d%nColumn - %d%n", rack, row, col));
-                    locations.append(ROW_SEPARATOR);
-                    locations.append(String.format("%n"));
-                }
-
-                String message = String.format("%s [%s] is located in%n%n%s", title, author, locations);
-                Intent resultIntent = new Intent(App.getContext(), ResultActivity.class);
-                resultIntent.putExtra(ResultActivity.RESPONSE_TEXT, message);
-                startActivity(resultIntent);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        };
-
-        Response.ErrorListener errorListener = error -> {
-            String message = null;
-            try {
-                JSONObject errorData = new JSONObject(new String(error.networkResponse.data));
-                message = errorData.get(JSON_MESSAGE_KEY).toString();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            Log.e(SearchActivity.class.getName(), message);
-            ToastMessage.showLong(message);
-        };
-
-        JsonObjectRequest searchRequest =
-                new JsonObjectRequest(url, null, responseListener, errorListener);
-        Client.send(searchRequest);
+        Client.send(request);
     }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        String itemSelected = parent.getItemAtPosition(position).toString();
+        switch (BookSearchType.valueOf(itemSelected.toUpperCase())) {
+            case TITLE:
+                bookTextFieldLabel.setText(R.string.book_text_field_as_title);
+                break;
+            case AUTHOR:
+                bookTextFieldLabel.setText(R.string.book_text_field_as_author);
+                break;
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {}
 }
