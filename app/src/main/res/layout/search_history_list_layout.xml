@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="5sp">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/search_history_item_title_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:padding="5sp"/>
+
+
+        <TextView
+            android:id="@+id/search_history_item_date_text"
+            android:layout_below="@id/search_history_item_title_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5sp"/>
+        
+        <View
+            android:layout_width="match_parent"
+            android:layout_below="@id/search_history_item_date_text"
+            android:layout_height="0.1sp"
+            android:layout_marginTop="5sp"
+            android:background="@color/colorPrimaryDark"/>
+    </RelativeLayout>
+
+</android.support.constraint.ConstraintLayout>

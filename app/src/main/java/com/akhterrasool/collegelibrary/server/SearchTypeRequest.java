@@ -1,8 +1,11 @@
 package com.akhterrasool.collegelibrary.server;
 
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.akhterrasool.collegelibrary.activity.SearchActivity;
+import com.akhterrasool.collegelibrary.app.App;
+import com.akhterrasool.collegelibrary.app.model.SearchEntry;
 import com.akhterrasool.collegelibrary.util.ToastMessage;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -12,13 +15,17 @@ import org.json.JSONObject;
 
 import static com.akhterrasool.collegelibrary.app.Constants.JSON_MESSAGE_KEY;
 
-public interface SearchTypeRequest<T, R extends Request> {
+public abstract class SearchTypeRequest<T> implements ResponseHandler {
 
-    Response.Listener<T> getResponseListener();
+    abstract Request getRequest();
 
-    Request getRequest();
+    protected void save(SearchEntry searchEntry) {
+        SharedPreferences.Editor editor = App.getSearchHistoryPreference().edit();
+        editor.putString(searchEntry.getKey(), searchEntry.toString());
+        editor.apply();
+    }
 
-    default Response.ErrorListener getErrorListener() {
+    protected Response.ErrorListener getErrorListener() {
         Response.ErrorListener errorListener = error -> {
             String message = null;
             try {

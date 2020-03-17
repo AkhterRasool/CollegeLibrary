@@ -15,7 +15,7 @@
            android:layout_height="wrap_content"
            android:text="Welcome to College Library!"
            android:padding="5dp"
-           android:textSize="20dp"
+           android:textSize="20sp"
            android:textAlignment="center"/>
 
        <Button
@@ -26,6 +26,26 @@
            android:padding="10dp"
            android:layout_marginTop="100dp"
            android:id="@+id/search_activity_button"/>
+
+       <Button
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="Search History"
+           android:layout_below="@id/search_activity_button"
+           android:layout_centerHorizontal="true"
+           android:padding="10dp"
+           android:layout_marginTop="20dp"
+           android:id="@+id/search_history_activity_button"/>
+
+       <Button
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="Clear History"
+           android:layout_below="@id/search_history_activity_button"
+           android:layout_centerHorizontal="true"
+           android:padding="10dp"
+           android:layout_marginTop="20dp"
+           android:id="@+id/clear_search_history_button"/>
 
    </RelativeLayout>
 

@@ -21,6 +21,7 @@
 
         <activity android:name=".activity.SearchActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar" android:windowSoftInputMode="stateVisible"/>
         <activity android:name=".activity.ResultActivity"/>
+        <activity android:name=".activity.SearchHistoryActivity"/>
     </application>
 
 </manifest>

@@ -1,9 +1,9 @@
 package com.akhterrasool.collegelibrary.server;
 
-import android.content.Intent;
-
 import com.akhterrasool.collegelibrary.activity.ResultActivity;
 import com.akhterrasool.collegelibrary.app.App;
+import com.akhterrasool.collegelibrary.app.model.SearchEntry;
+import com.akhterrasool.collegelibrary.util.IntentBuilder;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -12,6 +12,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import static com.akhterrasool.collegelibrary.app.BookSearchType.TITLE;
 import static com.akhterrasool.collegelibrary.app.Constants.JSON_KEY_AUTHOR;
 import static com.akhterrasool.collegelibrary.app.Constants.JSON_KEY_BOOK_LOCATION;
 import static com.akhterrasool.collegelibrary.app.Constants.JSON_KEY_COL;
@@ -20,7 +21,7 @@ import static com.akhterrasool.collegelibrary.app.Constants.JSON_KEY_ROW;
 import static com.akhterrasool.collegelibrary.app.Constants.JSON_KEY_TITLE;
 import static com.akhterrasool.collegelibrary.app.Constants.ROW_SEPARATOR;
 
-public class TitleSearchType implements SearchTypeRequest<JSONObject, JsonObjectRequest> {
+public class TitleSearchType extends SearchTypeRequest<JSONObject> {
 
 
     private final String url;
@@ -29,7 +30,8 @@ public class TitleSearchType implements SearchTypeRequest<JSONObject, JsonObject
         this.url = url;
     }
 
-    public Response.Listener<JSONObject> getResponseListener() {
+    @Override
+    public Response.Listener<JSONObject> getResponseHandler() {
         return response -> {
             try {
                 String title = response.getString(JSON_KEY_TITLE);
@@ -49,10 +51,15 @@ public class TitleSearchType implements SearchTypeRequest<JSONObject, JsonObject
                 }
 
                 String titleText = String.format("Locations for %s [%s]", title, author);
-                Intent resultIntent = new Intent(App.getContext(), ResultActivity.class);
-                resultIntent.putExtra(ResultActivity.RESULT_ACTIVITY_RESPONSE_BODY, locations.toString());
-                resultIntent.putExtra(ResultActivity.RESULT_ACTIVITY_TITLE, titleText);
-                App.getContext().startActivity(resultIntent);
+                save(new SearchEntry(title, locations.toString(), TITLE));
+
+                App.getContext().startActivity(
+                        new IntentBuilder()
+                                .setActivity(ResultActivity.class)
+                                .putExtra(ResultActivity.RESULT_ACTIVITY_RESPONSE_BODY, locations.toString())
+                                .putExtra(ResultActivity.RESULT_ACTIVITY_TITLE, titleText)
+                                .build()
+                );
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -61,6 +68,6 @@ public class TitleSearchType implements SearchTypeRequest<JSONObject, JsonObject
 
     @Override
     public Request getRequest() {
-        return new JsonObjectRequest(url, null, getResponseListener(), this.getErrorListener());
+        return new JsonObjectRequest(url, null, getResponseHandler(), this.getErrorListener());
     }
 }

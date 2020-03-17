@@ -4,6 +4,7 @@ import android.content.Intent;
 
 import com.akhterrasool.collegelibrary.activity.ResultActivity;
 import com.akhterrasool.collegelibrary.app.App;
+import com.akhterrasool.collegelibrary.app.model.SearchEntry;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.toolbox.JsonArrayRequest;
@@ -12,6 +13,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import static com.akhterrasool.collegelibrary.app.BookSearchType.AUTHOR;
 import static com.akhterrasool.collegelibrary.app.Constants.JSON_KEY_AUTHOR;
 import static com.akhterrasool.collegelibrary.app.Constants.JSON_KEY_BOOK_LOCATION;
 import static com.akhterrasool.collegelibrary.app.Constants.JSON_KEY_COL;
@@ -22,7 +24,7 @@ import static com.akhterrasool.collegelibrary.app.Constants.NEW_LINE;
 import static com.akhterrasool.collegelibrary.app.Constants.ROW_SEPARATOR;
 
 
-public class AuthorSearchType implements SearchTypeRequest<JSONArray, JsonArrayRequest> {
+public class AuthorSearchType extends SearchTypeRequest<JSONArray> {
     private final String url;
 
     public AuthorSearchType(String url) {
@@ -30,7 +32,7 @@ public class AuthorSearchType implements SearchTypeRequest<JSONArray, JsonArrayR
     }
 
     @Override
-    public Response.Listener<JSONArray> getResponseListener() {
+    public Response.Listener<JSONArray> getResponseHandler() {
         return response -> {
 
             String author = null;
@@ -87,6 +89,7 @@ public class AuthorSearchType implements SearchTypeRequest<JSONArray, JsonArrayR
             }
 
             String title = String.format("Books authored by %s", author);
+            save(new SearchEntry(author, authorBooks.toString(), AUTHOR));
             Intent resultIntent = new Intent(App.getContext(), ResultActivity.class);
             resultIntent.putExtra(ResultActivity.RESULT_ACTIVITY_RESPONSE_BODY, authorBooks.toString());
             resultIntent.putExtra(ResultActivity.RESULT_ACTIVITY_TITLE, title);
@@ -96,6 +99,6 @@ public class AuthorSearchType implements SearchTypeRequest<JSONArray, JsonArrayR
 
     @Override
     public Request getRequest() {
-        return new JsonArrayRequest(url, getResponseListener(), getErrorListener());
+        return new JsonArrayRequest(url, getResponseHandler(), getErrorListener());
     }
 }
