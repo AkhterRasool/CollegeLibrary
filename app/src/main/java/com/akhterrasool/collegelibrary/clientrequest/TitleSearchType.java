@@ -1,9 +1,6 @@
-package com.akhterrasool.collegelibrary.server;
+package com.akhterrasool.collegelibrary.clientrequest;
 
-import com.akhterrasool.collegelibrary.activity.ResultActivity;
-import com.akhterrasool.collegelibrary.app.App;
 import com.akhterrasool.collegelibrary.app.model.SearchEntry;
-import com.akhterrasool.collegelibrary.util.IntentBuilder;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -20,14 +17,13 @@ import static com.akhterrasool.collegelibrary.app.Constants.JSON_KEY_RACK;
 import static com.akhterrasool.collegelibrary.app.Constants.JSON_KEY_ROW;
 import static com.akhterrasool.collegelibrary.app.Constants.JSON_KEY_TITLE;
 import static com.akhterrasool.collegelibrary.app.Constants.ROW_SEPARATOR;
+import static com.akhterrasool.collegelibrary.util.ActivityUtils.startResultActivity;
 
 public class TitleSearchType extends SearchTypeRequest<JSONObject> {
 
 
-    private final String url;
-
     public TitleSearchType(String url) {
-        this.url = url;
+        super(url);
     }
 
     @Override
@@ -53,13 +49,7 @@ public class TitleSearchType extends SearchTypeRequest<JSONObject> {
                 String titleText = String.format("Locations for %s [%s]", title, author);
                 save(new SearchEntry(title, locations.toString(), TITLE));
 
-                App.getContext().startActivity(
-                        new IntentBuilder()
-                                .setActivity(ResultActivity.class)
-                                .putExtra(ResultActivity.RESULT_ACTIVITY_RESPONSE_BODY, locations.toString())
-                                .putExtra(ResultActivity.RESULT_ACTIVITY_TITLE, titleText)
-                                .build()
-                );
+                startResultActivity(titleText, locations.toString());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -68,6 +58,6 @@ public class TitleSearchType extends SearchTypeRequest<JSONObject> {
 
     @Override
     public Request getRequest() {
-        return new JsonObjectRequest(url, null, getResponseHandler(), this.getErrorListener());
+        return new JsonObjectRequest(url, null, getResponseHandler(), this.getErrorHandler());
     }
 }

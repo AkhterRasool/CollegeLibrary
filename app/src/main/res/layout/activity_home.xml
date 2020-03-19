@@ -47,6 +47,16 @@
            android:layout_marginTop="20dp"
            android:id="@+id/clear_search_history_button"/>
 
+       <Button
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="Issues &amp; Fines"
+           android:layout_below="@id/clear_search_history_button"
+           android:layout_centerHorizontal="true"
+           android:padding="10dp"
+           android:layout_marginTop="20dp"
+           android:id="@+id/issues_and_fines_button"/>
+
    </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>

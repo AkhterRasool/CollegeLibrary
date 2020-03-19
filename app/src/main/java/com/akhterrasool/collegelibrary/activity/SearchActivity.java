@@ -17,8 +17,8 @@ import android.widget.TextView;
 import com.akhterrasool.collegelibrary.R;
 import com.akhterrasool.collegelibrary.app.App;
 import com.akhterrasool.collegelibrary.app.BookSearchType;
-import com.akhterrasool.collegelibrary.server.AuthorSearchType;
-import com.akhterrasool.collegelibrary.server.TitleSearchType;
+import com.akhterrasool.collegelibrary.clientrequest.AuthorSearchType;
+import com.akhterrasool.collegelibrary.clientrequest.TitleSearchType;
 import com.akhterrasool.collegelibrary.util.Client;
 import com.android.volley.Request;
 

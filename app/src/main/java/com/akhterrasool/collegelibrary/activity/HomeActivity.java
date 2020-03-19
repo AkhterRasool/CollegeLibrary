@@ -15,6 +15,7 @@ public class HomeActivity extends AppCompatActivity {
     private Button searchActivityButton;
     private Button searchHistoryActivityButton;
     private Button clearSearchHistoryButton;
+    private Button issuesAndFinesActivityButton;
 
 
     @Override
@@ -26,6 +27,7 @@ public class HomeActivity extends AppCompatActivity {
         searchActivityButton = findViewById(R.id.search_activity_button);
         searchHistoryActivityButton = findViewById(R.id.search_history_activity_button);
         clearSearchHistoryButton = findViewById(R.id.clear_search_history_button);
+        issuesAndFinesActivityButton = findViewById(R.id.issues_and_fines_button);
 
         searchActivityButton.setOnClickListener(view ->
             startActivity(
@@ -43,7 +45,16 @@ public class HomeActivity extends AppCompatActivity {
             )
         );
 
+        issuesAndFinesActivityButton.setOnClickListener(view ->
+                startActivity(
+                        new IntentBuilder()
+                                .setActivity(IssuesAndFinesActivity.class)
+                                .build()
+                )
+        );
+
         clearSearchHistoryButton.setOnClickListener(view -> clearSearchHistory());
+
     }
 
     public void clearSearchHistory() {

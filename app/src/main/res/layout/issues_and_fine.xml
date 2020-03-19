@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="20sp">
+
+
+        <TextView
+            android:id="@+id/issues_and_fines_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Issues &amp; Fines"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:padding="20sp"
+            android:layout_marginBottom="50sp"/>
+
+        <TextView
+            android:layout_below="@id/issues_and_fines_title"
+            android:id="@+id/roll_number_field_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Enter Roll Number:"
+            android:textSize="20sp"
+            android:layout_marginBottom="30sp"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/roll_number_field"
+            android:layout_below="@id/roll_number_field_label"
+            android:inputType="number"
+            android:layout_marginBottom="30sp"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/search_fines_button"
+            android:layout_below="@id/roll_number_field"
+            android:padding="20sp"
+            android:text="search books issued"/>
+
+    </RelativeLayout>
+</android.support.constraint.ConstraintLayout>

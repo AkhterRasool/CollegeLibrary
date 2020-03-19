@@ -1,9 +1,5 @@
-package com.akhterrasool.collegelibrary.server;
+package com.akhterrasool.collegelibrary.clientrequest;
 
-import android.content.Intent;
-
-import com.akhterrasool.collegelibrary.activity.ResultActivity;
-import com.akhterrasool.collegelibrary.app.App;
 import com.akhterrasool.collegelibrary.app.model.SearchEntry;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -22,13 +18,14 @@ import static com.akhterrasool.collegelibrary.app.Constants.JSON_KEY_ROW;
 import static com.akhterrasool.collegelibrary.app.Constants.JSON_KEY_TITLE;
 import static com.akhterrasool.collegelibrary.app.Constants.NEW_LINE;
 import static com.akhterrasool.collegelibrary.app.Constants.ROW_SEPARATOR;
+import static com.akhterrasool.collegelibrary.util.ActivityUtils.startResultActivity;
 
 
 public class AuthorSearchType extends SearchTypeRequest<JSONArray> {
-    private final String url;
+
 
     public AuthorSearchType(String url) {
-        this.url = url;
+        super(url);
     }
 
     @Override
@@ -90,15 +87,12 @@ public class AuthorSearchType extends SearchTypeRequest<JSONArray> {
 
             String title = String.format("Books authored by %s", author);
             save(new SearchEntry(author, authorBooks.toString(), AUTHOR));
-            Intent resultIntent = new Intent(App.getContext(), ResultActivity.class);
-            resultIntent.putExtra(ResultActivity.RESULT_ACTIVITY_RESPONSE_BODY, authorBooks.toString());
-            resultIntent.putExtra(ResultActivity.RESULT_ACTIVITY_TITLE, title);
-            App.getContext().startActivity(resultIntent);
+            startResultActivity(title, authorBooks.toString());
         };
     }
 
     @Override
     public Request getRequest() {
-        return new JsonArrayRequest(url, getResponseHandler(), getErrorListener());
+        return new JsonArrayRequest(url, getResponseHandler(), getErrorHandler());
     }
 }
