@@ -1,12 +1,13 @@
 package com.akhterrasool.collegelibrary.activity;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 
 import com.akhterrasool.collegelibrary.R;
 import com.akhterrasool.collegelibrary.app.App;
 import com.akhterrasool.collegelibrary.util.IntentBuilder;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import static com.akhterrasool.collegelibrary.util.AppUtils.showLong;
 

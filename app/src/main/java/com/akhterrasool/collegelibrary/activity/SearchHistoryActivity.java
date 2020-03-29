@@ -1,14 +1,15 @@
 package com.akhterrasool.collegelibrary.activity;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.akhterrasool.collegelibrary.R;
 import com.akhterrasool.collegelibrary.activity.adapter.SearchHistoryAdapter;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import static com.akhterrasool.collegelibrary.app.App.searchHistoryEntriesExist;
 

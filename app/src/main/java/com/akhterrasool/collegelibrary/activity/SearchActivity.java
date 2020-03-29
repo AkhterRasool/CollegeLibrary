@@ -2,9 +2,6 @@ package com.akhterrasool.collegelibrary.activity;
 
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -21,6 +18,10 @@ import com.akhterrasool.collegelibrary.clientrequest.AuthorSearchType;
 import com.akhterrasool.collegelibrary.clientrequest.TitleSearchType;
 import com.akhterrasool.collegelibrary.util.Client;
 import com.android.volley.Request;
+
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class SearchActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
