@@ -11,24 +11,24 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.akhterrasool.collegelibrary.R;
-import com.akhterrasool.collegelibrary.app.App;
-import com.akhterrasool.collegelibrary.app.BookSearchType;
-import com.akhterrasool.collegelibrary.clientrequest.AuthorSearchType;
-import com.akhterrasool.collegelibrary.clientrequest.TitleSearchType;
-import com.akhterrasool.collegelibrary.util.Client;
-import com.android.volley.Request;
-
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.akhterrasool.collegelibrary.R;
+import com.akhterrasool.collegelibrary.app.App;
+import com.akhterrasool.collegelibrary.app.BookSearchType;
+import com.akhterrasool.collegelibrary.clientrequest.DisplayAuthorResults;
+import com.akhterrasool.collegelibrary.clientrequest.DisplayTitleResults;
+import com.akhterrasool.collegelibrary.util.Client;
+import com.android.volley.Request;
+
 public class SearchActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    private EditText bookTextField;
-    private Button searchButton;
+    protected EditText bookTextField;
+    protected Button primaryButton;
+    protected Spinner spinner;
     private Button clearButton;
-    private Spinner spinner;
     private TextView bookTextFieldLabel;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -39,14 +39,14 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
         getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimary));
 
         bookTextField = findViewById(R.id.book_text_field);
-        searchButton = findViewById(R.id.search_button);
+        primaryButton = findViewById(R.id.primary_button);
         clearButton = findViewById(R.id.clear_button);
         bookTextFieldLabel = findViewById(R.id.book_text_field_label);
         spinner = findViewById(R.id.search_type_drop_down);
 
         initializeSearchTypeDropDown();
 
-        searchButton.setOnClickListener(view -> {
+        primaryButton.setOnClickListener(view -> {
             String book = bookTextField.getText().toString();
             if (!book.isEmpty()) {
                 sendSearchRequest(book);
@@ -67,21 +67,17 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
         spinner.setOnItemSelectedListener(this);
     }
 
-    private void sendSearchRequest(String book) {
-        Log.i(SearchActivity.class.getName(), "User has entered '" + book + "'");
+    private void sendSearchRequest(String input) {
+        Log.i(SearchActivity.class.getName(), "User has entered '" + input + "'");
         String selectedSearchType = spinner.getSelectedItem().toString();
-        String url =
-                String.format("%s/search/%s/%s", getResources().getString(R.string.root_url),
-                        selectedSearchType.toLowerCase(), book);
-        Log.i(SearchActivity.class.getName(), "Navigating to " + url);
 
         Request request = null;
         switch (BookSearchType.valueOf(selectedSearchType.toUpperCase())) {
             case TITLE:
-                request = new TitleSearchType(url).getRequest();
+                request = new DisplayTitleResults(input).getRequest();
                 break;
             case AUTHOR:
-                request = new AuthorSearchType(url).getRequest();
+                request = new DisplayAuthorResults(input).getRequest();
                 break;
         }
 

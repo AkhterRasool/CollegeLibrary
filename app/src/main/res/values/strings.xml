@@ -4,10 +4,24 @@
     <string name="search">Search</string>
     <string name="clear">Clear</string>
     <string name="empty_string"></string>
-    <string name="root_url">http://10.0.2.2:8080/</string>
+    <string name="root_url">http://10.0.2.2:8080/CollegeLibraryServer</string>
     <string name="book_text_field_as_title">Enter title of book:</string>
     <string name="book_text_field_as_author">Enter author\'s name:</string>
     <string name="search_history_file">com.akhterrasool.collegelibrary.SEARCH_HISTORY</string>
+    <string name="notification_preference">com.akhterrasool.collegelibrary.NOTIFICATION</string>
+    <string name="input_cannot_be_empty">Input cannot be empty.</string>
+    <string name="subscribe_text">Subscibe</string>
+    <string name="notification_item_registration_success">You\'ll be notified about \'%1$s\'</string>
+    <string name="notification_items_list_display_title">These are the following items you have registered:</string>
+    <string name="nothing_to_display">Nothing to display.</string>
+    <string name="all_items_are_cleared">All items are cleared!</string>
+    <string name="nothing_to_clear">Nothing to clear.</string>
+    <string name="search_notification_channel_name">Search Notification</string>
+    <string name="search_notification_channel_description">Notifications appear when books are available for background search</string>
+    <string name="notification_search_status_title">Search status for \'%1$s\'</string>
+    <string name="notification_content_search_completed">Search completed. Tap to see results.</string>
+    <string name="search_results_saved">Results saved.</string>
+    <string name="book_not_available">%1$s is not available.</string>
 
     <string-array name="search_type_array">
         <item>Title</item>

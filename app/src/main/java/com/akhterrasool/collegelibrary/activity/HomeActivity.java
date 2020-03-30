@@ -3,11 +3,12 @@ package com.akhterrasool.collegelibrary.activity;
 import android.os.Bundle;
 import android.widget.Button;
 
-import com.akhterrasool.collegelibrary.R;
-import com.akhterrasool.collegelibrary.app.App;
-import com.akhterrasool.collegelibrary.util.IntentBuilder;
-
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.akhterrasool.collegelibrary.R;
+import com.akhterrasool.collegelibrary.activity.notification.MainNotificationActivity;
+import com.akhterrasool.collegelibrary.app.App;
+import com.akhterrasool.collegelibrary.util.ActivityUtils;
 
 import static com.akhterrasool.collegelibrary.util.AppUtils.showLong;
 
@@ -17,45 +18,38 @@ public class HomeActivity extends AppCompatActivity {
     private Button searchHistoryActivityButton;
     private Button clearSearchHistoryButton;
     private Button issuesAndFinesActivityButton;
+    private Button notificationsModuleButton;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        App.setContext(getApplicationContext());
+        App.init(getApplicationContext());
 
         searchActivityButton = findViewById(R.id.search_activity_button);
         searchHistoryActivityButton = findViewById(R.id.search_history_activity_button);
         clearSearchHistoryButton = findViewById(R.id.clear_search_history_button);
         issuesAndFinesActivityButton = findViewById(R.id.issues_and_fines_button);
+        notificationsModuleButton = findViewById(R.id.notifications_module_button);
 
         searchActivityButton.setOnClickListener(view ->
-            startActivity(
-                    new IntentBuilder()
-                    .setActivity(SearchActivity.class)
-                    .build()
-            )
+                ActivityUtils.startActivity(SearchActivity.class)
         );
 
         searchHistoryActivityButton.setOnClickListener(view ->
-            startActivity(
-                    new IntentBuilder()
-                    .setActivity(SearchHistoryActivity.class)
-                    .build()
-            )
+                ActivityUtils.startActivity(SearchHistoryActivity.class)
         );
 
         issuesAndFinesActivityButton.setOnClickListener(view ->
-                startActivity(
-                        new IntentBuilder()
-                                .setActivity(IssuesAndFinesActivity.class)
-                                .build()
-                )
+                ActivityUtils.startActivity(IssuesAndFinesActivity.class)
+        );
+
+        notificationsModuleButton.setOnClickListener(view ->
+                ActivityUtils.startActivity(MainNotificationActivity.class)
         );
 
         clearSearchHistoryButton.setOnClickListener(view -> clearSearchHistory());
-
     }
 
     public void clearSearchHistory() {

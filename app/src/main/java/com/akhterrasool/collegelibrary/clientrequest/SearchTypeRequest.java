@@ -4,6 +4,9 @@ import android.content.SharedPreferences;
 
 import com.akhterrasool.collegelibrary.app.App;
 import com.akhterrasool.collegelibrary.app.model.SearchEntry;
+import com.akhterrasool.collegelibrary.exception.BookNotAvailableException;
+
+import java.util.Optional;
 
 public abstract class SearchTypeRequest<T> extends ClientRequest<T> {
 
@@ -18,6 +21,7 @@ public abstract class SearchTypeRequest<T> extends ClientRequest<T> {
         editor.apply();
     }
 
+    protected abstract Optional<SearchEntry> extractSearchEntry(T response) throws BookNotAvailableException;
 }
 
 

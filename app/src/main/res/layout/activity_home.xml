@@ -57,6 +57,16 @@
            android:layout_marginTop="20dp"
            android:id="@+id/issues_and_fines_button"/>
 
+       <Button
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="Notifications"
+           android:layout_below="@id/issues_and_fines_button"
+           android:layout_centerHorizontal="true"
+           android:padding="10dp"
+           android:layout_marginTop="20dp"
+           android:id="@+id/notifications_module_button"/>
+
    </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
