@@ -15,7 +15,7 @@ public class NotificationUtils {
     private static final String TAG = "com.akhterrasool.collegelibrary.util.NotificationUtils";
 
     public static void addItemToSubscription(String input) {
-        Set<String> existingSet = getSubscriptionItems();
+        Set<String> existingSet = new HashSet<>(getSubscriptionItems());
         existingSet.add(input);
         updateSubscriptions(existingSet);
     }
@@ -42,7 +42,7 @@ public class NotificationUtils {
 
     public static void removeItemFromSubscription(String item) {
         Log.i(TAG, "removeItemFromSubscription: Removing '" + item + "'");
-        Set<String> updatedSet = getSubscriptionItems()
+        Set<String> updatedSet = new HashSet<>(getSubscriptionItems())
                 .stream()
                 .filter(existingItem -> !existingItem.equals(item))
                 .collect(Collectors.toSet());
