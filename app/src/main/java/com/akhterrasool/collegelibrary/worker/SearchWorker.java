@@ -19,7 +19,6 @@ import java.time.Duration;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
 
 import static androidx.work.ListenableWorker.Result.failure;
 import static androidx.work.ListenableWorker.Result.success;
@@ -54,14 +53,10 @@ public class SearchWorker extends Worker {
     }
 
     private void performSearchForSubscriptions() {
-        Set<NotificationItem> subscriptionList =
-                NotificationUtils.getSubscriptionItems()
-                .stream()
-                .map(NotificationItem::new)
-                .collect(Collectors.toSet());
+        Set<String> subscriptionList = NotificationUtils.getSubscriptionItems();
 
-        for (NotificationItem item : subscriptionList) {
-            item = obtainFromPendingItems(item);
+        for (String itemInput : subscriptionList) {
+            NotificationItem item = obtainFromPendingItems(itemInput);
             Log.i(TAG, "performSearchForSubscriptions: Sending search request.");
             NotifiableTitleResults titleSearch = new NotifiableTitleResults(item);
             Client.send(titleSearch.getRequest());
@@ -77,9 +72,9 @@ public class SearchWorker extends Worker {
         }
     }
 
-    private NotificationItem obtainFromPendingItems(NotificationItem item) {
-        pendingItems.putIfAbsent(item.getInput(), item);
-        return pendingItems.get(item.getInput());
+    private NotificationItem obtainFromPendingItems(String itemInput) {
+        pendingItems.putIfAbsent(itemInput, new NotificationItem(itemInput));
+        return pendingItems.get(itemInput);
     }
 
     private void remove(NotificationItem item) {
