@@ -14,6 +14,7 @@ import static com.akhterrasool.collegelibrary.util.AppUtils.getResourceString;
 public class App {
 
     private static Context appContext;
+    private static boolean appRunning;
 
     public static Context getContext() {
         return appContext;
@@ -57,5 +58,13 @@ public class App {
         if (context != null) {
             appContext = context;
         }
+    }
+
+    public static void setAppRunning(boolean isRunning) {
+        appRunning = isRunning;
+    }
+
+    public static boolean isAppRunning() {
+        return appRunning;
     }
 }

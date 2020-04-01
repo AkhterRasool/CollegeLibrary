@@ -22,6 +22,8 @@
     <string name="notification_content_search_completed">Search completed. Tap to see results.</string>
     <string name="search_results_saved">Results saved.</string>
     <string name="book_not_available">%1$s is not available.</string>
+    <string name="search_service_module_name">Search Service</string>
+    <string name="service_successfully_stopped">Service completed. No items to process.</string>
 
     <string-array name="search_type_array">
         <item>Title</item>

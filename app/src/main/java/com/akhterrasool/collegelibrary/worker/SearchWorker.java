@@ -55,7 +55,7 @@ public class SearchWorker extends Worker {
     private void performSearchForSubscriptions() {
         Set<String> subscriptionList = NotificationUtils.getSubscriptionItems();
 
-        for (String itemInput : subscriptionList) {
+        for (String itemInput: subscriptionList) {
             NotificationItem item = obtainFromPendingItems(itemInput);
             Log.i(TAG, "performSearchForSubscriptions: Sending search request.");
             NotifiableTitleResults titleSearch = new NotifiableTitleResults(item);

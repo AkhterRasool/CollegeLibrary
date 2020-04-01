@@ -26,6 +26,7 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         App.init(getApplicationContext());
+        App.setAppRunning(true);
 
         searchActivityButton = findViewById(R.id.search_activity_button);
         searchHistoryActivityButton = findViewById(R.id.search_history_activity_button);
@@ -63,5 +64,11 @@ public class HomeActivity extends AppCompatActivity {
         } else {
             showLong("There is no history to clear!");
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        App.setAppRunning(false);
     }
 }
