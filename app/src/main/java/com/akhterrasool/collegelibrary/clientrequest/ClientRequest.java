@@ -14,6 +14,7 @@ import static com.akhterrasool.collegelibrary.util.AppUtils.showLong;
 
 public abstract class ClientRequest<T> implements ResponseHandler<T> {
 
+    //TAG used for logging purpose i.e, to identify from which class the log message is coming from.
     private static final String TAG = "com.akhterrasool.collegelibrary.clientrequest.ClientRequest";
     protected String url;
     private boolean isProcessed = false;

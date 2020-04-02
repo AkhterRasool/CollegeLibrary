@@ -31,6 +31,11 @@ public class ResultActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String responseText = intent.getStringExtra(RESULT_ACTIVITY_RESPONSE_BODY);
         String responseTitle = intent.getStringExtra(RESULT_ACTIVITY_TITLE);
+
+        //Some extra information to be displayed but not to be kept around.
+        //This should not be as part of response.
+        //Good Example: Results Saved.
+        //Bad Example: Locations available at Rack - 1 Col - 2 Row - 10
         String toastMessage = intent.getStringExtra(RESULT_ACTIVITY_TOAST_MESSAGE);
         resultText.setText(responseText);
         resultTitle.setText(responseTitle);

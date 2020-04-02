@@ -3,6 +3,7 @@ package com.akhterrasool.collegelibrary.clientrequest;
 import android.util.Log;
 
 import com.akhterrasool.collegelibrary.R;
+import com.akhterrasool.collegelibrary.activity.ResultActivity;
 import com.akhterrasool.collegelibrary.app.model.SearchEntry;
 import com.akhterrasool.collegelibrary.exception.BookNotAvailableException;
 import com.akhterrasool.collegelibrary.notification.SearchNotification;
@@ -18,10 +19,18 @@ import java.util.Optional;
 import static com.akhterrasool.collegelibrary.app.Constants.JSON_MESSAGE_KEY;
 import static com.akhterrasool.collegelibrary.util.AppUtils.getResourceString;
 
+/**
+ * This class is used to display notification when search request is performed and not start
+ * {@link ResultActivity}
+ *
+ * @see DisplayTitleResults before proceeding with this class.
+ */
 public class NotifiableTitleResults extends SimpleTitleSearch {
 
+    //TAG used for logging purpose i.e, to identify from which class the log message is coming from.
     private static final String TAG = "com.akhterrasool.collegelibrary.clientrequest.NotifiableTitleResults";
     private final String title;
+    //Use this item to display in notification
     private final NotificationItem notificationItem;
 
     public NotifiableTitleResults(NotificationItem item) {
@@ -40,18 +49,20 @@ public class NotifiableTitleResults extends SimpleTitleSearch {
                     Log.i(TAG, "getResponseHandler: Search entry extracted preparing notification.");
                     SearchEntry searchEntry = optSearchEntry.get();
                     save(searchEntry);
+                    //The search is performed, now focus on displaying the notification
                     String resultActivityTitle = "Search results for " + searchEntry.getKey();
                     String popUpMessage = getResourceString(R.string.search_results_saved);
+                    //Refer docs of this method: showNotification
                     showNotification(
                             getResourceString(R.string.notification_content_search_completed),
                             resultActivityTitle,
                             searchEntry.getValue(),
-                            popUpMessage);
+                            popUpMessage); //Inform the user that the results were saved.
                     Log.i(TAG, "getResponseHandler: Displayed notification.");
-                    notificationItem.setNoLongerUseful(true);
+                    notificationItem.setNoLongerUseful(true); //Because search successful.
                     markRequestAsSuccessful();
                 } else {
-                    this.notificationItem.setNoLongerUseful(true);
+                    this.notificationItem.setNoLongerUseful(true); //Because invalid input passed by user, hence remove it.
                     markRequestWithErrors();
                 }
             } catch (BookNotAvailableException e) {
@@ -60,6 +71,11 @@ public class NotifiableTitleResults extends SimpleTitleSearch {
         };
     }
 
+    /**
+     * In case of any error occurring during backgrond search, send a notification to keep the user
+     * informed.
+     * @return
+     */
     @Override
     protected Response.ErrorListener getErrorHandler() {
         return error -> {
@@ -67,9 +83,12 @@ public class NotifiableTitleResults extends SimpleTitleSearch {
 
             String errorMessage = null;
             try {
+                //Make sure there is some error message, otherwise throw NullPointerException
+                //if no error message is there.
                 Objects.requireNonNull(error);
                 Objects.requireNonNull(error.networkResponse);
                 Objects.requireNonNull(error.networkResponse.data);
+                //Otherwise parse the error message.
                 JSONObject errorData = new JSONObject(new String(error.networkResponse.data));
                 errorMessage = errorData.get(JSON_MESSAGE_KEY).toString();
             } catch (JSONException | NullPointerException e) {
@@ -78,18 +97,31 @@ public class NotifiableTitleResults extends SimpleTitleSearch {
                 errorMessage = e.getMessage();
             }
             showNotification(errorMessage);
-            this.notificationItem.setNoLongerUseful(true);
+            this.notificationItem.setNoLongerUseful(true); //Because this input gives errors.
             markRequestWithErrors();
         };
     }
 
+    /**
+     * Show notification with already defined title.
+     * Only focuses on setting the content.
+     * @param textContent
+     */
     private void showNotification(String textContent) {
         SearchNotification.createNotification(
-                getResourceString(R.string.notification_search_status_title, this.notificationItem.getInput()),
+                getResourceString(R.string.notification_search_status_title, this.notificationItem.getInput()), //This is the title
                 textContent,
                 this.notificationItem.getNotificationId());
     }
 
+    /**
+     * Show notification with already defined title but launch {@link ResultActivity} when
+     * user clicks on it.
+     * @param textContent
+     * @param resultActivityTitle
+     * @param resultActivityBody
+     * @param toastMessage
+     */
     private void showNotification(String textContent,
                                   String resultActivityTitle,
                                   String resultActivityBody,

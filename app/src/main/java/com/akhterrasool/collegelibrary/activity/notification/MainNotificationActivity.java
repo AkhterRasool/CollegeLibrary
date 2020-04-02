@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.akhterrasool.collegelibrary.R;
+import com.akhterrasool.collegelibrary.activity.HomeActivity;
 import com.akhterrasool.collegelibrary.util.ActivityUtils;
 import com.akhterrasool.collegelibrary.util.SubscriptionUtils;
 
@@ -19,8 +20,12 @@ import static com.akhterrasool.collegelibrary.util.AppUtils.showLong;
 import static com.akhterrasool.collegelibrary.util.SubscriptionUtils.atLeastOneNotificationItemExists;
 import static com.akhterrasool.collegelibrary.util.SubscriptionUtils.clearAllNotificationItems;
 
+/**
+ * Displays the Activity when the user clicks NOTIFICATIONS button in {@link HomeActivity}
+ */
 public class MainNotificationActivity extends AppCompatActivity {
 
+    //TAG used for logging purpose i.e, to identify from which class the log message is coming from.
     private static final String TAG = "com.akhterrasool.collegelibrary.activity.notification.MainNotificationActivity";
     private Button registerBooksForNotificationsButton;
     private Button viewRegisteredBooksButton;
@@ -48,12 +53,21 @@ public class MainNotificationActivity extends AppCompatActivity {
         Log.i(TAG, "displayBooksRegistered: Checking if at least one item has been registered to list.");
         if (atLeastOneNotificationItemExists()) {
             Log.i(TAG, "displayBooksRegistered: One or more items have been registered.");
+            //Use StringBuffer instead of String for faster performance.
             StringBuffer result = new StringBuffer();
             Set<String> subscriptionSet = SubscriptionUtils.getSubscriptionItems();
+            /*
+                It should look some thing like this in ResultActivity:
 
+             *  These are the following items you have registered:
+             *  1) Embedded Systems
+             *  2) Operating Systems
+             */
             int counter = 1;
             for (String item : subscriptionSet) {
                 result.append(String.format("%d) %s%s%s", counter++, item, NEW_LINE, NEW_LINE));
+                //String formatted would be something like
+                //1) Embedded Systems\n\n
             }
 
             Log.i(TAG, "displayBooksRegistered: Going to display registered items.");

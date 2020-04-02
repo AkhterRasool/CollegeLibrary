@@ -29,6 +29,7 @@ import static com.akhterrasool.collegelibrary.util.AppUtils.getResourceString;
 public abstract class SimpleAuthorSearch extends SearchTypeRequest<JSONArray> {
 
     private static final String URL = "%s/search/author/%s";
+    //TAG used for logging purpose i.e, to identify from which class the log message is coming from.
     private static final String TAG = "com.akhterrasool.collegelibrary.clientrequest.AuthorSearchType";
 
     public SimpleAuthorSearch(String authorName) {

@@ -13,7 +13,27 @@ public class AppUtils {
         Toast.makeText(App.getContext(), message, Toast.LENGTH_LONG).show();
     }
 
-    public static String getResourceString(int resourceId, Object... formatArgs) {
+    /**
+     * Utility method to get the string from strings.xml file.
+     * @param resourceId The name of the string to retrieve. Example: R.string.root_url
+     * @param formatArgs The placeholders used for the string
+     *                   Example: If an xml tag exists in strings.xml as follows
+     *                   <code>
+     *                       <string name="book_not_available">%1$s is not available.</string>
+     *                   </code>
+     *                   Then this method can be used as follows:
+     *                  <code>
+     *                      AppUtils.getResourceString(R.string.book_not_available, "Embedded Systems");
+     *                  </code>
+     *
+     *                   "Embedded Systems" will replace '%1$s' in "%1$s is not available." message
+     *                   %1$s => 1st parameter of type String.
+     *                   %2$s => 2nd parameter of type String.
+     *                   %1$d => 1st parameter of type Integer.
+     *
+     * @return the message which is formatter with placeholders.
+     */
+    public static String getResourceString(int resourceId, Object...formatArgs) {
         return App.getContext().getResources().getString(resourceId, formatArgs);
     }
 

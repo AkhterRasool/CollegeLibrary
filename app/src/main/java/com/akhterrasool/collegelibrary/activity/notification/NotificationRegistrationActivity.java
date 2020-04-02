@@ -14,6 +14,12 @@ import static com.akhterrasool.collegelibrary.util.AppUtils.showLong;
 import static com.akhterrasool.collegelibrary.util.AppUtils.startSearchService;
 import static com.akhterrasool.collegelibrary.util.SubscriptionUtils.addItemToSubscription;
 
+/**
+ * From this activity the user enters the name of the book to register
+ * We're reusing the layout of {@link SearchActivity} because it's quite similar.
+ *
+ * The necessary texts should be updated for this Activity.
+ */
 public class NotificationRegistrationActivity extends SearchActivity {
 
     private TextView titleText;
@@ -23,6 +29,10 @@ public class NotificationRegistrationActivity extends SearchActivity {
         titleText = findViewById(R.id.title_text);
         titleText.setText(R.string.notification_registration_activity_title_text);
         primaryButton.setText(getResourceString(R.string.subscribe_text));
+        //Only Titles are used for Registration
+        //It would not make much sense to register authors to search a particular book in background.
+        //Hence spinner is disabled i.e, made invisible.
+        //Titles are used as input by default.
         spinner.setVisibility(View.GONE);
         primaryButton.setOnClickListener(view -> registerBookForNotifications());
     }
