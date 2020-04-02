@@ -22,3 +22,4 @@ The following files are to be seen for explanation:
 15. NotificationUtils.java
 16. NotificationItem.java
 17. SearchWorker.java
+18. DeviceBootedReceiver.java
