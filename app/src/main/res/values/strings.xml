@@ -10,7 +10,7 @@
     <string name="search_history_file">com.akhterrasool.collegelibrary.SEARCH_HISTORY</string>
     <string name="notification_preference">com.akhterrasool.collegelibrary.NOTIFICATION</string>
     <string name="input_cannot_be_empty">Input cannot be empty.</string>
-    <string name="subscribe_text">Subscibe</string>
+    <string name="subscribe_text">Subscribe</string>
     <string name="notification_item_registration_success">You\'ll be notified about \'%1$s\'</string>
     <string name="notification_items_list_display_title">These are the following items you have registered:</string>
     <string name="nothing_to_display">Nothing to display.</string>
@@ -23,7 +23,8 @@
     <string name="search_results_saved">Results saved.</string>
     <string name="book_not_available">%1$s is not available.</string>
     <string name="search_service_module_name">Search Service</string>
-    <string name="service_successfully_stopped">Service completed. No items to process.</string>
+    <string name="background_search_not_running">Background search not running. No items to process.</string>
+    <string name="notification_registration_activity_title_text">Search books in background</string>
 
     <string-array name="search_type_array">
         <item>Title</item>

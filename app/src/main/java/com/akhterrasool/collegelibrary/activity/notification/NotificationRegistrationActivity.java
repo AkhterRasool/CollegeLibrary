@@ -2,24 +2,26 @@ package com.akhterrasool.collegelibrary.activity.notification;
 
 import android.os.Bundle;
 import android.view.View;
-
-import com.akhterrasool.collegelibrary.R;
-import com.akhterrasool.collegelibrary.activity.SearchActivity;
-import com.akhterrasool.collegelibrary.util.AppUtils;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
+import com.akhterrasool.collegelibrary.R;
+import com.akhterrasool.collegelibrary.activity.SearchActivity;
+
 import static com.akhterrasool.collegelibrary.util.AppUtils.getResourceString;
 import static com.akhterrasool.collegelibrary.util.AppUtils.showLong;
-import static com.akhterrasool.collegelibrary.util.AppUtils.startNotificationService;
-import static com.akhterrasool.collegelibrary.util.NotificationUtils.addItemToSubscription;
+import static com.akhterrasool.collegelibrary.util.AppUtils.startSearchService;
+import static com.akhterrasool.collegelibrary.util.SubscriptionUtils.addItemToSubscription;
 
 public class NotificationRegistrationActivity extends SearchActivity {
 
-
+    private TextView titleText;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        titleText = findViewById(R.id.title_text);
+        titleText.setText(R.string.notification_registration_activity_title_text);
         primaryButton.setText(getResourceString(R.string.subscribe_text));
         spinner.setVisibility(View.GONE);
         primaryButton.setOnClickListener(view -> registerBookForNotifications());
@@ -30,7 +32,7 @@ public class NotificationRegistrationActivity extends SearchActivity {
         try {
             validate(input);
             addItemToSubscription(input);
-            startNotificationService();
+            startSearchService();
             showLong(getResourceString(R.string.notification_item_registration_success, input));
         } catch (IllegalArgumentException ex) {
             showLong(ex.getMessage());

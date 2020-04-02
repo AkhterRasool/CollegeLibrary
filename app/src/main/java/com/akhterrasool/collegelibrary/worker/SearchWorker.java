@@ -10,10 +10,13 @@ import androidx.work.WorkManager;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
+import com.akhterrasool.collegelibrary.R;
 import com.akhterrasool.collegelibrary.app.App;
 import com.akhterrasool.collegelibrary.clientrequest.NotifiableTitleResults;
+import com.akhterrasool.collegelibrary.notification.SearchNotification;
+import com.akhterrasool.collegelibrary.service.SearchService;
 import com.akhterrasool.collegelibrary.util.Client;
-import com.akhterrasool.collegelibrary.util.NotificationUtils;
+import com.akhterrasool.collegelibrary.util.SubscriptionUtils;
 
 import java.time.Duration;
 import java.util.Map;
@@ -22,12 +25,14 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import static androidx.work.ListenableWorker.Result.failure;
 import static androidx.work.ListenableWorker.Result.success;
+import static com.akhterrasool.collegelibrary.util.AppUtils.getResourceString;
 
 public class SearchWorker extends Worker {
 
     private static final String WORK_TAG = "SearchTag";
     private static final String TAG = "com.akhterrasool.collegelibrary.worker.SearchWorker";
     private static Map<String, NotificationItem> pendingItems = new ConcurrentHashMap<>();
+    public static final int BACKGROUND_SEARCH_COMPLETED_NOTIFICATION_ID = 28397;
 
     public SearchWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
@@ -49,11 +54,16 @@ public class SearchWorker extends Worker {
     //Please make sure ITC is handled properly.
     public Result doWork() {
         performSearchForSubscriptions();
-        return NotificationUtils.atLeastOneNotificationItemExists() ? success() : failure();
+        if (SubscriptionUtils.atLeastOneNotificationItemExists()) {
+            return success();
+        } else if (!SearchService.isRunning()) {
+            notifyCompletionViaNotification();
+        }
+        return failure();
     }
 
     private void performSearchForSubscriptions() {
-        Set<String> subscriptionList = NotificationUtils.getSubscriptionItems();
+        Set<String> subscriptionList = SubscriptionUtils.getSubscriptionItems();
 
         for (String itemInput: subscriptionList) {
             NotificationItem item = obtainFromPendingItems(itemInput);
@@ -79,7 +89,17 @@ public class SearchWorker extends Worker {
 
     private void remove(NotificationItem item) {
         pendingItems.remove(item.getInput());
-        NotificationUtils.removeItemFromSubscription(item.getInput());
+        SubscriptionUtils.removeItemFromSubscription(item.getInput());
+    }
+
+    private void notifyCompletionViaNotification() {
+        String title = getResourceString(R.string.search_service_module_name);
+        String content = getResourceString(R.string.background_search_not_running);
+        SearchNotification.createNotification(title, content, BACKGROUND_SEARCH_COMPLETED_NOTIFICATION_ID);
+    }
+
+    public static void cancel() {
+        WorkManager.getInstance(App.getContext()).cancelAllWorkByTag(WORK_TAG);
     }
 }
 

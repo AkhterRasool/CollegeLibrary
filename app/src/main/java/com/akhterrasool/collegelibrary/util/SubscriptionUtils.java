@@ -9,7 +9,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class NotificationUtils {
+public class SubscriptionUtils {
 
     private static final String NOTIFICATION_ITEMS_KEY = "NotificationItems";
     private static final String TAG = "com.akhterrasool.collegelibrary.util.NotificationUtils";

@@ -9,15 +9,16 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.akhterrasool.collegelibrary.R;
 import com.akhterrasool.collegelibrary.util.ActivityUtils;
-import com.akhterrasool.collegelibrary.util.NotificationUtils;
+import com.akhterrasool.collegelibrary.util.AppUtils;
+import com.akhterrasool.collegelibrary.util.SubscriptionUtils;
 
 import java.util.Set;
 
 import static com.akhterrasool.collegelibrary.app.Constants.NEW_LINE;
 import static com.akhterrasool.collegelibrary.util.AppUtils.getResourceString;
 import static com.akhterrasool.collegelibrary.util.AppUtils.showLong;
-import static com.akhterrasool.collegelibrary.util.NotificationUtils.atLeastOneNotificationItemExists;
-import static com.akhterrasool.collegelibrary.util.NotificationUtils.clearAllNotificationItems;
+import static com.akhterrasool.collegelibrary.util.SubscriptionUtils.atLeastOneNotificationItemExists;
+import static com.akhterrasool.collegelibrary.util.SubscriptionUtils.clearAllNotificationItems;
 
 public class MainNotificationActivity extends AppCompatActivity {
 
@@ -49,7 +50,7 @@ public class MainNotificationActivity extends AppCompatActivity {
         if (atLeastOneNotificationItemExists()) {
             Log.i(TAG, "displayBooksRegistered: One or more items have been registered.");
             StringBuffer result = new StringBuffer();
-            Set<String> subscriptionSet = NotificationUtils.getSubscriptionItems();
+            Set<String> subscriptionSet = SubscriptionUtils.getSubscriptionItems();
 
             int counter = 1;
             for (String item : subscriptionSet) {
@@ -70,6 +71,7 @@ public class MainNotificationActivity extends AppCompatActivity {
         if (atLeastOneNotificationItemExists()) {
             Log.i(TAG, "clearAllNotificationItemsFromSubscription: Clearing items");
             clearAllNotificationItems();
+            AppUtils.stopSearchService();
             Log.i(TAG, "clearAllNotificationItemsFromSubscription: Items have been cleared.");
             showLong(getResourceString(R.string.all_items_are_cleared));
         } else {
