@@ -64,6 +64,7 @@ public class SubscriptionUtils {
     }
 
     public static void clearAllNotificationItems() {
+        //We invoke the editor to make changes into the preference file if any.
         SharedPreferences.Editor editor = App.getNotificationPreference().edit();
         //Clear everything in the NOTIFICATIONS file and commit.
         editor.clear();

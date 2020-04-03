@@ -81,14 +81,16 @@ public class SearchWorker extends Worker {
         PeriodicWorkRequest backgroundSearchRequest =
                 new PeriodicWorkRequest.Builder(SearchWorker.class, Duration.ofMinutes(15)) //We provide 15 minutes. That is the minimum amount.
                         //You can choose to provide higher time interval i.e, 30 minutes, 1 hour, 2 hours, etc. using various methods of Duration class.
+                        //Anything less than 15 minutes would be considered as 15 minutes by default.
+                        //It need not execute exactly at 15 minutes. It might execute some time post 15 minutes as well.
                         .addTag(WORK_TAG) //Provide some tag to this work to identify or group related work
                         .build();//Build the periodic work request.
 
         //The WorkManager is responsible for starting/enqueuing the work.
         WorkManager.getInstance(App.getContext()) //This is how we get an instance of WorkManager.
-                .enqueueUniquePeriodicWork(//We want to provide a unique work so that duplicate work requests are eliminated which would lead to unecessary computation.
+                .enqueueUniquePeriodicWork(//We want to provide a unique work so that duplicate work requests are eliminated which would lead to unnecessary computation.
                         WORK_TAG, //Specify a unique work name. In this case we use the same tag as work name.
-                        ExistingPeriodicWorkPolicy.REPLACE, //If multiple work requests are created, the latest request will replace the preceeding request.
+                        ExistingPeriodicWorkPolicy.REPLACE, //If multiple work requests are created, the latest request will replace the preceding request.
                         //Yielding only 1 request at the end.
                         backgroundSearchRequest);//Pass the work request you want to start.
     }
@@ -152,7 +154,7 @@ public class SearchWorker extends Worker {
     }
 
     /**
-     * Remove the item if from pending items list as well as from Subscription list.
+     * Remove the item from pending items list as well as from Subscription list.
      */
     private void remove(NotificationItem item) {
         pendingItems.remove(item.getInput());

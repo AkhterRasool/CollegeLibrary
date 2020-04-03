@@ -39,6 +39,7 @@ public class SearchService extends IntentService {
 
     //TAG used for logging purpose i.e, to identify from which class the log message is coming from.
     private static final String TAG = "com.akhterrasool.collegelibrary.service.SearchService";
+    //To keep track of the status of this service i.e, if it's running or not.
     private static boolean isRunning;
     //Assign a separate notification when the service completes. The id is used as follows:
     private static final int SERVICE_COMPLETE_STATUS_NOTIFICATION_ID = 28397;
@@ -109,6 +110,9 @@ public class SearchService extends IntentService {
     @Override
     public int onStartCommand(@Nullable Intent intent, int flags, int startId) {
         isRunning = true;
+        // We have invoked setIntentRedilvery(true) in constructor.
+        // This method will ultimately will return START_REDELIVER_INTENT which will keep make sure
+        // that the service is properly executed.
         return super.onStartCommand(intent, flags, startId);
     }
 

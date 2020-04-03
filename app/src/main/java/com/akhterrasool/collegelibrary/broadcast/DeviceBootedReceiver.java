@@ -8,7 +8,7 @@ import com.akhterrasool.collegelibrary.app.App;
 import com.akhterrasool.collegelibrary.worker.SearchWorker;
 
 /**
- * This is a receiver which is executed when the devices is booted up.
+ * This is a receiver which is executed when the device is booted up.
  */
 public class DeviceBootedReceiver extends BroadcastReceiver {
 
