@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.akhterrasool.collegelibrary.R;
 import com.akhterrasool.collegelibrary.util.ActivityUtils;
-import com.akhterrasool.collegelibrary.util.AppUtils;
 import com.akhterrasool.collegelibrary.util.SubscriptionUtils;
 
 import java.util.Set;
@@ -71,7 +70,6 @@ public class MainNotificationActivity extends AppCompatActivity {
         if (atLeastOneNotificationItemExists()) {
             Log.i(TAG, "clearAllNotificationItemsFromSubscription: Clearing items");
             clearAllNotificationItems();
-            AppUtils.stopSearchService();
             Log.i(TAG, "clearAllNotificationItemsFromSubscription: Items have been cleared.");
             showLong(getResourceString(R.string.all_items_are_cleared));
         } else {
