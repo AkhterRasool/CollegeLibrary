@@ -25,6 +25,7 @@
     <string name="search_service_module_name">Search Service</string>
     <string name="background_search_not_running">Background search not running. No items to process.</string>
     <string name="notification_registration_activity_title_text">Search books in background</string>
+    <string name="could_not_connect_to_server">Could not connect to server.</string>
 
     <string-array name="search_type_array">
         <item>Title</item>
