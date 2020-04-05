@@ -3,9 +3,8 @@ package com.akhterrasool.collegelibrary.clientrequest;
 import android.util.Log;
 
 import com.akhterrasool.collegelibrary.R;
-import com.akhterrasool.collegelibrary.app.model.SearchEntry;
+import com.akhterrasool.collegelibrary.app.model.SearchHistoryEntry;
 import com.android.volley.Request;
-import com.android.volley.Response;
 import com.android.volley.toolbox.JsonArrayRequest;
 
 import org.json.JSONArray;
@@ -26,19 +25,24 @@ import static com.akhterrasool.collegelibrary.app.Constants.ROW_SEPARATOR;
 import static com.akhterrasool.collegelibrary.util.AppUtils.getResourceString;
 
 
-public abstract class SimpleAuthorSearch extends SearchTypeRequest<JSONArray> {
+public abstract class AbstractAuthorSearch extends SaveableSearchRequest<JSONArray> {
 
-    private static final String URL = "%s/search/author/%s";
-    private static final String TAG = "com.akhterrasool.collegelibrary.clientrequest.AuthorSearchType";
+    private static final String TAG = "AuthorSearchType";
 
-    public SimpleAuthorSearch(String authorName) {
-        super(String.format(URL, getResourceString(R.string.root_url), authorName));
+    public AbstractAuthorSearch(String authorName) {
+        super(
+                getResourceString(
+                        R.string.author_search_url,
+                        getResourceString(R.string.root_url),
+                        authorName
+                )
+        );
     }
 
     @Override
-    protected Optional<SearchEntry> extractSearchEntry(JSONArray response) {
+    protected Optional<SearchHistoryEntry> extractSearchHistoryEntry(JSONArray response) {
 
-        Optional<SearchEntry> searchEntry = Optional.empty();
+        Optional<SearchHistoryEntry> searchEntry = Optional.empty();
         try {
             String author = null;
             int numOfBooks = response.length();
@@ -65,15 +69,13 @@ public abstract class SimpleAuthorSearch extends SearchTypeRequest<JSONArray> {
                 }
                 authorBooks.append(locations);
                 authorBooks.append(NEW_LINE);
-                Optional.of(new SearchEntry(author, authorBooks.toString(), AUTHOR));
+                Optional.of(new SearchHistoryEntry(author, authorBooks.toString(), AUTHOR));
             }
         } catch (JSONException ex) {
             Log.e(TAG, "extractSearchEntry: Could not parse response", ex);
         }
         return searchEntry;
     }
-
-    public abstract Response.Listener<JSONArray> getResponseHandler();
 
     @Override
     public Request getRequest() {

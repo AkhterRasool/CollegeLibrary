@@ -12,7 +12,7 @@ import androidx.work.WorkerParameters;
 
 import com.akhterrasool.collegelibrary.R;
 import com.akhterrasool.collegelibrary.app.App;
-import com.akhterrasool.collegelibrary.clientrequest.NotifiableTitleResults;
+import com.akhterrasool.collegelibrary.clientrequest.NotifiableTitleSearch;
 import com.akhterrasool.collegelibrary.notification.SearchNotification;
 import com.akhterrasool.collegelibrary.service.SearchService;
 import com.akhterrasool.collegelibrary.util.Client;
@@ -30,7 +30,7 @@ import static com.akhterrasool.collegelibrary.util.AppUtils.getResourceString;
 public class SearchWorker extends Worker {
 
     private static final String WORK_TAG = "SearchTag";
-    private static final String TAG = "com.akhterrasool.collegelibrary.worker.SearchWorker";
+    private static final String TAG = "SearchWorker";
     private static Map<String, NotificationItem> pendingItems = new ConcurrentHashMap<>();
     public static final int BACKGROUND_SEARCH_COMPLETED_NOTIFICATION_ID = 28397;
 
@@ -53,7 +53,15 @@ public class SearchWorker extends Worker {
     //This method operates on a different thread.
     //Please make sure ITC is handled properly.
     public Result doWork() {
-        performSearchForSubscriptions();
+        for (int i = 0; i < 100; i++) {
+            performSearchForSubscriptions();
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
         if (SubscriptionUtils.atLeastOneNotificationItemExists()) {
             return success();
         } else if (!SearchService.isRunning()) {
@@ -68,7 +76,7 @@ public class SearchWorker extends Worker {
         for (String itemInput: subscriptionList) {
             NotificationItem item = obtainFromPendingItems(itemInput);
             Log.i(TAG, "performSearchForSubscriptions: Sending search request.");
-            NotifiableTitleResults titleSearch = new NotifiableTitleResults(item);
+            NotifiableTitleSearch titleSearch = new NotifiableTitleSearch(item);
             Client.send(titleSearch.getRequest());
 
             Log.i(TAG, "performSearchForSubscriptions: Waiting for request to be processed.");
@@ -95,7 +103,7 @@ public class SearchWorker extends Worker {
     private void notifyCompletionViaNotification() {
         String title = getResourceString(R.string.search_service_module_name);
         String content = getResourceString(R.string.background_search_not_running);
-        SearchNotification.createNotification(title, content, BACKGROUND_SEARCH_COMPLETED_NOTIFICATION_ID);
+        SearchNotification.show(title, content, BACKGROUND_SEARCH_COMPLETED_NOTIFICATION_ID);
     }
 
     public static void cancel() {

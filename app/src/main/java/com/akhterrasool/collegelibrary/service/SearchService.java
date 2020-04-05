@@ -14,12 +14,12 @@ import com.akhterrasool.collegelibrary.util.SubscriptionUtils;
 import com.akhterrasool.collegelibrary.worker.SearchWorker;
 
 import static com.akhterrasool.collegelibrary.util.AppUtils.getResourceString;
-import static com.akhterrasool.collegelibrary.util.AppUtils.showLong;
+import static com.akhterrasool.collegelibrary.util.AppUtils.showShort;
 import static com.akhterrasool.collegelibrary.worker.SearchWorker.BACKGROUND_SEARCH_COMPLETED_NOTIFICATION_ID;
 
 public class SearchService extends IntentService {
 
-    private static final String TAG = "com.akhterrasool.collegelibrary.service.SearchService";
+    private static final String TAG = "service.SearchService";
     private static boolean isRunning;
 
     public SearchService() {
@@ -52,12 +52,12 @@ public class SearchService extends IntentService {
     private void notifyCompletionViaNotification() {
         String title = getResourceString(R.string.search_service_module_name);
         String content = getResourceString(R.string.background_search_not_running);
-        SearchNotification.createNotification(title, content, BACKGROUND_SEARCH_COMPLETED_NOTIFICATION_ID);
+        SearchNotification.show(title, content, BACKGROUND_SEARCH_COMPLETED_NOTIFICATION_ID);
     }
 
     private void notifyCompletionViaToastMessage() {
         getMainLooper();
-        showLong(getResourceString(R.string.background_search_not_running));
+        showShort(getResourceString(R.string.background_search_not_running));
         Looper.loop();
     }
 

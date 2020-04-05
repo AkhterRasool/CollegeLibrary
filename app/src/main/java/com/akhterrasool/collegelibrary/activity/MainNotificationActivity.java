@@ -1,4 +1,4 @@
-package com.akhterrasool.collegelibrary.activity.notification;
+package com.akhterrasool.collegelibrary.activity;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -15,14 +15,13 @@ import java.util.Set;
 
 import static com.akhterrasool.collegelibrary.app.Constants.NEW_LINE;
 import static com.akhterrasool.collegelibrary.util.AppUtils.getResourceString;
-import static com.akhterrasool.collegelibrary.util.AppUtils.showLong;
+import static com.akhterrasool.collegelibrary.util.AppUtils.showShort;
 import static com.akhterrasool.collegelibrary.util.SubscriptionUtils.atLeastOneNotificationItemExists;
 import static com.akhterrasool.collegelibrary.util.SubscriptionUtils.clearAllNotificationItems;
 
 public class MainNotificationActivity extends AppCompatActivity {
 
-    private static final String TAG = "com.akhterrasool.collegelibrary.activity.notification.MainNotificationActivity";
-    private Button registerBooksForNotificationsButton;
+    private static final String TAG = "activity.MainNotificationActivity";
     private Button viewRegisteredBooksButton;
     private Button stopNotificationsButton;
 
@@ -31,12 +30,8 @@ public class MainNotificationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.notification_home_layout);
 
-        registerBooksForNotificationsButton = findViewById(R.id.register_books_notifications_button);
         stopNotificationsButton = findViewById(R.id.notification_stop_button);
         viewRegisteredBooksButton = findViewById(R.id.view_registered_books_for_notifications_button);
-
-
-        registerBooksForNotificationsButton.setOnClickListener(view -> ActivityUtils.startActivity(NotificationRegistrationActivity.class));
 
         stopNotificationsButton.setOnClickListener(view -> clearAllNotificationItemsFromSubscription());
 
@@ -61,7 +56,7 @@ public class MainNotificationActivity extends AppCompatActivity {
             ActivityUtils.startResultActivity(title, result.toString());
         } else {
             Log.i(TAG, "displayBooksRegistered: No items have been registered.");
-            showLong(getResourceString(R.string.nothing_to_display));
+            showShort(getResourceString(R.string.nothing_to_display));
         }
     }
 
@@ -71,10 +66,10 @@ public class MainNotificationActivity extends AppCompatActivity {
             Log.i(TAG, "clearAllNotificationItemsFromSubscription: Clearing items");
             clearAllNotificationItems();
             Log.i(TAG, "clearAllNotificationItemsFromSubscription: Items have been cleared.");
-            showLong(getResourceString(R.string.all_items_are_cleared));
+            showShort(getResourceString(R.string.all_items_are_cleared));
         } else {
             Log.i(TAG, "clearAllNotificationItemsFromSubscription: Nothing to clear.");
-            showLong(getResourceString(R.string.nothing_to_clear));
+            showShort(getResourceString(R.string.nothing_to_clear));
         }
     }
 }

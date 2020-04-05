@@ -20,22 +20,13 @@
 
 
         <Button
-            android:layout_below="@id/notification_activity_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Register Books"
-            android:layout_centerHorizontal="true"
-            android:id="@+id/register_books_notifications_button"
-            android:layout_marginBottom="40sp"/>
-
-
-        <Button
             android:id="@+id/view_registered_books_for_notifications_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="View Registered Books"
             android:layout_centerHorizontal="true"
-            android:layout_below="@id/register_books_notifications_button"
+            android:layout_below="@id/notification_activity_title"
+
             android:layout_marginBottom="40sp"/>
 
 

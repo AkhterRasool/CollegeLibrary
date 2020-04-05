@@ -27,12 +27,8 @@
         <activity android:name=".activity.IssuesAndFinesActivity"/>
 
         <activity
-            android:name=".activity.notification.MainNotificationActivity"
+            android:name=".activity.MainNotificationActivity"
             android:parentActivityName=".activity.HomeActivity"/>
-
-        <activity
-            android:name=".activity.notification.NotificationRegistrationActivity"
-            android:parentActivityName=".activity.notification.MainNotificationActivity"/>
 
         <receiver android:name=".broadcast.DeviceBootedReceiver" android:exported="true">
             <intent-filter>

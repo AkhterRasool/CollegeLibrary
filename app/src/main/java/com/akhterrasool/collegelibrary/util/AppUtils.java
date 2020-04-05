@@ -5,12 +5,11 @@ import android.widget.Toast;
 
 import com.akhterrasool.collegelibrary.app.App;
 import com.akhterrasool.collegelibrary.service.SearchService;
-import com.akhterrasool.collegelibrary.worker.SearchWorker;
 
 public class AppUtils {
 
-    public static void showLong(String message) {
-        Toast.makeText(App.getContext(), message, Toast.LENGTH_LONG).show();
+    public static void showShort(String message) {
+        Toast.makeText(App.getContext(), message, Toast.LENGTH_SHORT).show();
     }
 
     public static String getResourceString(int resourceId, Object... formatArgs) {
@@ -19,10 +18,5 @@ public class AppUtils {
 
     public static void startSearchService() {
         App.getContext().startService(new Intent(App.getContext(), SearchService.class));
-    }
-
-    public static void stopSearchService() {
-        SearchWorker.cancel();
-        App.getContext().stopService(new Intent(App.getContext(), SearchService.class));
     }
 }

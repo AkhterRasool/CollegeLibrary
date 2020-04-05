@@ -4,15 +4,17 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.akhterrasool.collegelibrary.R;
-import com.akhterrasool.collegelibrary.clientrequest.BookIssuedRequest;
-import com.akhterrasool.collegelibrary.util.Client;
-import com.android.volley.Request;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import static com.akhterrasool.collegelibrary.util.AppUtils.showLong;
+import com.akhterrasool.collegelibrary.R;
+import com.akhterrasool.collegelibrary.clientrequest.BookIssuedRequest;
+import com.akhterrasool.collegelibrary.util.Client;
+import com.akhterrasool.collegelibrary.util.ValidationUtils;
+import com.android.volley.Request;
+
+import static com.akhterrasool.collegelibrary.util.AppUtils.getResourceString;
+import static com.akhterrasool.collegelibrary.util.AppUtils.showShort;
 
 public class IssuesAndFinesActivity extends AppCompatActivity {
 
@@ -33,18 +35,17 @@ public class IssuesAndFinesActivity extends AppCompatActivity {
     private void checkForIssuesAndFines() {
         String rollNumber = rollNumberField.getText().toString().trim();
         try {
-            validate(rollNumber);
-            String url = getResources().getString(R.string.root_url) + "/search/issuesandfines/" + rollNumber;
+            ValidationUtils.throwIfNullOrEmpty(rollNumber);
+            String url = getResourceString(
+                    R.string.issues_and_fines_url,
+                    getResourceString(R.string.root_url),
+                    rollNumber
+            );
             Request bookIssuedRequest = new BookIssuedRequest(url).getRequest();
             Client.send(bookIssuedRequest);
         } catch (IllegalArgumentException ex) {
-            showLong(ex.getMessage());
-        }
-    }
-
-    private void validate(String rollNumber) {
-        if (rollNumber == null || rollNumber.isEmpty()) {
-            throw new IllegalArgumentException("Roll number cannot be empty.");
+            showShort(ex.getMessage());
         }
     }
 }
+

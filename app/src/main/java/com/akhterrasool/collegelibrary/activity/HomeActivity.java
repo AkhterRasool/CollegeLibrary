@@ -6,11 +6,10 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.akhterrasool.collegelibrary.R;
-import com.akhterrasool.collegelibrary.activity.notification.MainNotificationActivity;
 import com.akhterrasool.collegelibrary.app.App;
 import com.akhterrasool.collegelibrary.util.ActivityUtils;
 
-import static com.akhterrasool.collegelibrary.util.AppUtils.showLong;
+import static com.akhterrasool.collegelibrary.util.AppUtils.showShort;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -57,12 +56,12 @@ public class HomeActivity extends AppCompatActivity {
         if (App.searchHistoryEntriesExist()) {
             boolean clearSuccessful = App.getSearchHistoryPreference().edit().clear().commit();
             if (clearSuccessful) {
-                showLong("Search history was cleared successfully.");
+                showShort("Search history was cleared successfully.");
             } else {
-                showLong("Failed to clear search history.");
+                showShort("Failed to clear search history.");
             }
         } else {
-            showLong("There is no history to clear!");
+            showShort("There is no history to clear!");
         }
     }
 

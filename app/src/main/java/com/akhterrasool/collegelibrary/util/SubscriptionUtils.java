@@ -5,47 +5,62 @@ import android.util.Log;
 
 import com.akhterrasool.collegelibrary.app.App;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public class SubscriptionUtils {
 
+    private static final String TAG = "SubscriptionUtils";
     private static final String NOTIFICATION_ITEMS_KEY = "NotificationItems";
-    private static final String TAG = "com.akhterrasool.collegelibrary.util.NotificationUtils";
+    private static Set<String> subscriptions;
+    private static final SubscriptionUtils lock;
 
-    public static void addItemToSubscription(String input) {
-        Set<String> existingSet = new HashSet<>(getSubscriptionItems());
-        existingSet.add(input);
-        updateSubscriptions(existingSet);
+    static {
+        lock = new SubscriptionUtils();
+        subscriptions = getSubscriptionItems();
     }
 
-    private static void updateSubscriptions(Set<String> updatedSet) {
+    public static void addItemToSubscription(String input) {
+        synchronized (lock) {
+            subscriptions.add(input);
+        }
+        updateSubscriptions();
+    }
+
+    private static void updateSubscriptions() {
         SharedPreferences.Editor editor = App.getNotificationPreference().edit();
-        editor.putStringSet(NOTIFICATION_ITEMS_KEY, updatedSet);
-        editor.commit();
+        editor.putStringSet(NOTIFICATION_ITEMS_KEY, subscriptions);
+        editor.apply();
     }
 
     public static Set<String> getSubscriptionItems() {
-        return App.getNotificationPreference().getStringSet(NOTIFICATION_ITEMS_KEY, new HashSet<>());
+        if (subscriptions == null) {
+            subscriptions = new HashSet<>(App.getNotificationPreference().getStringSet(NOTIFICATION_ITEMS_KEY, Collections.emptySet()));
+        }
+        return subscriptions;
     }
 
     public static void clearAllNotificationItems() {
-        SharedPreferences.Editor editor = App.getNotificationPreference().edit();
-        editor.clear();
-        editor.commit();
+        synchronized (lock) {
+            if (atLeastOneNotificationItemExists()) {
+                subscriptions = new HashSet<>();
+                SharedPreferences.Editor editor = App.getNotificationPreference().edit();
+                editor.clear();
+                editor.apply();
+            }
+        }
     }
 
     public static boolean atLeastOneNotificationItemExists() {
-        return getSubscriptionItems().size() > 0;
+        return subscriptions.size() > 0;
     }
 
     public static void removeItemFromSubscription(String item) {
         Log.i(TAG, "removeItemFromSubscription: Removing '" + item + "'");
-        Set<String> updatedSet = new HashSet<>(getSubscriptionItems())
-                .stream()
-                .filter(existingItem -> !existingItem.equals(item))
-                .collect(Collectors.toSet());
-        updateSubscriptions(updatedSet);
+        synchronized (lock) {
+            subscriptions.remove(item);
+        }
+        updateSubscriptions();
     }
 }

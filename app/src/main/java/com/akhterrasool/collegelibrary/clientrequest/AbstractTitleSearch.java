@@ -1,7 +1,9 @@
 package com.akhterrasool.collegelibrary.clientrequest;
 
+import android.util.Log;
+
 import com.akhterrasool.collegelibrary.R;
-import com.akhterrasool.collegelibrary.app.model.SearchEntry;
+import com.akhterrasool.collegelibrary.app.model.SearchHistoryEntry;
 import com.akhterrasool.collegelibrary.exception.BookNotAvailableException;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -22,16 +24,23 @@ import static com.akhterrasool.collegelibrary.app.Constants.JSON_KEY_TITLE;
 import static com.akhterrasool.collegelibrary.app.Constants.ROW_SEPARATOR;
 import static com.akhterrasool.collegelibrary.util.AppUtils.getResourceString;
 
-public abstract class SimpleTitleSearch extends SearchTypeRequest<JSONObject> {
+public abstract class AbstractTitleSearch extends SaveableSearchRequest<JSONObject> {
 
-    private static final String URL = "%s/search/title/%s";
-    public SimpleTitleSearch(String titleName) {
-        super(String.format(URL, getResourceString(R.string.root_url), titleName));
+    private static final String TAG = "AbstractTitleSearch";
+
+    public AbstractTitleSearch(String titleName) {
+        super(
+                getResourceString(
+                        R.string.title_search_url,
+                            getResourceString(R.string.root_url),
+                            titleName
+                )
+        );
     }
 
     @Override
-    protected Optional<SearchEntry> extractSearchEntry(JSONObject response) throws BookNotAvailableException {
-        Optional<SearchEntry> searchEntry = Optional.empty();
+    protected Optional<SearchHistoryEntry> extractSearchHistoryEntry(JSONObject response) throws BookNotAvailableException {
+        Optional<SearchHistoryEntry> optEntry = Optional.empty();
         try {
             String title = response.getString(JSON_KEY_TITLE);
             JSONArray bookLocations = response.getJSONArray(JSON_KEY_BOOK_LOCATION);
@@ -51,12 +60,13 @@ public abstract class SimpleTitleSearch extends SearchTypeRequest<JSONObject> {
                 locations.append(String.format("%n"));
             }
 
-            searchEntry = Optional.of(new SearchEntry(title, locations.toString(), TITLE));
+            optEntry = Optional.of(new SearchHistoryEntry(title, locations.toString(), TITLE));
         } catch (JSONException e) {
             e.printStackTrace();
+            Log.e(TAG, "extractSearchHistoryEntry: Error occurred while parsing");
         }
 
-        return searchEntry;
+        return optEntry;
     }
 
     @Override

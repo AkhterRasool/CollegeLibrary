@@ -5,10 +5,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.akhterrasool.collegelibrary.R;
 import com.akhterrasool.collegelibrary.activity.ResultActivity;
 import com.akhterrasool.collegelibrary.app.App;
-import com.akhterrasool.collegelibrary.app.model.SearchEntry;
+import com.akhterrasool.collegelibrary.app.model.SearchHistoryEntry;
 import com.akhterrasool.collegelibrary.util.IntentBuilder;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -18,27 +21,24 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
 public class SearchHistoryAdapter extends RecyclerView.Adapter<SearchHistoryAdapter.SearchHistoryViewHolder> {
 
-    private final List<SearchEntry> searchHistoryEntries;
+    private final List<SearchHistoryEntry> searchHistoryEntries;
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
     public SearchHistoryAdapter() {
         searchHistoryEntries = fetchHistory();
     }
 
-    private List<SearchEntry> fetchHistory() {
+    private List<SearchHistoryEntry> fetchHistory() {
         Map<String, String> entryMap = (Map<String, String>) App
                 .getSearchHistoryPreference()
                 .getAll();
 
-        List<SearchEntry> searchEntries = new ArrayList<>(entryMap.size());
+        List<SearchHistoryEntry> searchEntries = new ArrayList<>(entryMap.size());
         for (String jsonStr : entryMap.values()) {
             try {
-                SearchEntry searchEntry = objectMapper.readValue(jsonStr, SearchEntry.class);
+                SearchHistoryEntry searchEntry = objectMapper.readValue(jsonStr, SearchHistoryEntry.class);
                 searchEntries.add(searchEntry);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -57,7 +57,7 @@ public class SearchHistoryAdapter extends RecyclerView.Adapter<SearchHistoryAdap
 
     @Override
     public void onBindViewHolder(@NonNull SearchHistoryViewHolder searchHistoryViewHolder, int i) {
-        SearchEntry searchEntry = searchHistoryEntries.get(i);
+        SearchHistoryEntry searchEntry = searchHistoryEntries.get(i);
         searchHistoryViewHolder.set(searchEntry);
     }
 
@@ -79,7 +79,7 @@ public class SearchHistoryAdapter extends RecyclerView.Adapter<SearchHistoryAdap
             dateTextView = rootView.findViewById(R.id.search_history_item_date_text);
         }
 
-        public void set(SearchEntry searchEntry) {
+        public void set(SearchHistoryEntry searchEntry) {
             titleText.setText(searchEntry.getKey());
             dateTextView.setText(new Date(searchEntry.getTimeStamp()).toLocaleString());
             rootView.setOnClickListener(v ->

@@ -15,17 +15,17 @@ public class SearchNotification {
 
     public static final String CHANNEL_ID = "Search Notification Id";
 
-    public static void createNotification(String textTitle, String textContent, int notificationId) {
+    public static void show(String textTitle, String textContent, int notificationId) {
         NotificationCompat.Builder builder = getBasicBuilder(textTitle, textContent);
         notify(notificationId, builder);
     }
 
-    public static void createNotificationWithResultActivity(String notificationTitle,
-                                                            String notificationContent,
-                                                            String resultActivityTitle,
-                                                            String resultActivityBody,
-                                                            String resultActivityToastMessage,
-                                                            int notificationId) {
+    public static void showNotificationNavigatingToResultActivity(String notificationTitle,
+                                                                  String notificationContent,
+                                                                  String resultActivityTitle,
+                                                                  String resultActivityBody,
+                                                                  String resultActivityToastMessage,
+                                                                  int notificationId) {
         Intent resultActivityIntent = new Intent(App.getContext(), ResultActivity.class);
         resultActivityIntent.putExtra(ResultActivity.RESULT_ACTIVITY_TITLE, resultActivityTitle);
         resultActivityIntent.putExtra(ResultActivity.RESULT_ACTIVITY_RESPONSE_BODY, resultActivityBody);

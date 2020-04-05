@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 
-public class SearchEntry {
+public class SearchHistoryEntry {
 
     private static final ObjectMapper objectMapper = new ObjectMapper();
     private String key;
@@ -13,9 +13,9 @@ public class SearchEntry {
     private BookSearchType bookSearchType;
     private long timeStamp;
 
-    public SearchEntry() {}
+    public SearchHistoryEntry() {}
 
-    public SearchEntry(String key, String value, BookSearchType bookSearchType) {
+    public SearchHistoryEntry(String key, String value, BookSearchType bookSearchType) {
         this.key = key;
         this.value = value;
         this.bookSearchType = bookSearchType;

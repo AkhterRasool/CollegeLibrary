@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.akhterrasool.collegelibrary.R;
 
-import static com.akhterrasool.collegelibrary.util.AppUtils.showLong;
+import static com.akhterrasool.collegelibrary.util.AppUtils.showShort;
 
 public class ResultActivity extends AppCompatActivity {
 
@@ -36,7 +36,7 @@ public class ResultActivity extends AppCompatActivity {
         resultTitle.setText(responseTitle);
 
         if (toastMessage != null) {
-            showLong(toastMessage);
+            showShort(toastMessage);
         }
     }
 }

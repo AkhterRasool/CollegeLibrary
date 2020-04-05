@@ -18,10 +18,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.akhterrasool.collegelibrary.R;
 import com.akhterrasool.collegelibrary.app.App;
 import com.akhterrasool.collegelibrary.app.BookSearchType;
-import com.akhterrasool.collegelibrary.clientrequest.DisplayAuthorResults;
-import com.akhterrasool.collegelibrary.clientrequest.DisplayTitleResults;
+import com.akhterrasool.collegelibrary.clientrequest.InAppAuthorSearch;
+import com.akhterrasool.collegelibrary.clientrequest.InAppTitleSearch;
 import com.akhterrasool.collegelibrary.util.Client;
+import com.akhterrasool.collegelibrary.util.ValidationUtils;
 import com.android.volley.Request;
+
+import static com.akhterrasool.collegelibrary.util.AppUtils.showShort;
 
 public class SearchActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
@@ -47,21 +50,24 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
         initializeSearchTypeDropDown();
 
         primaryButton.setOnClickListener(view -> {
-            String book = bookTextField.getText().toString();
-            if (!book.isEmpty()) {
-                sendSearchRequest(book);
+            String input = bookTextField.getText().toString();
+            try {
+                ValidationUtils.throwIfNullOrEmpty(input);
+                sendSearchRequest(input);
+            } catch (IllegalArgumentException ex) {
+                showShort(ex.getMessage());
             }
         });
 
         clearButton.setOnClickListener(view -> {
-            bookTextField.setText(R.string.empty_string);
+            bookTextField.setText("");
             Log.i(SearchActivity.class.getName(), "Book Text field has been cleared.");
         });
     }
 
     private void initializeSearchTypeDropDown() {
         ArrayAdapter<CharSequence> spinnerMenuItemSource = ArrayAdapter.createFromResource(
-            App.getContext(), R.array.search_type_array, android.R.layout.simple_spinner_item);
+                App.getContext(), R.array.search_type_array, android.R.layout.simple_spinner_item);
         spinnerMenuItemSource.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(spinnerMenuItemSource);
         spinner.setOnItemSelectedListener(this);
@@ -74,10 +80,10 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
         Request request = null;
         switch (BookSearchType.valueOf(selectedSearchType.toUpperCase())) {
             case TITLE:
-                request = new DisplayTitleResults(input).getRequest();
+                request = new InAppTitleSearch(input, this).getRequest();
                 break;
             case AUTHOR:
-                request = new DisplayAuthorResults(input).getRequest();
+                request = new InAppAuthorSearch(input).getRequest();
                 break;
         }
 
@@ -98,5 +104,6 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
     }
 
     @Override
-    public void onNothingSelected(AdapterView<?> parent) {}
+    public void onNothingSelected(AdapterView<?> parent) {
+    }
 }

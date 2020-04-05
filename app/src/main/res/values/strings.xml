@@ -3,14 +3,17 @@
     <string name="label_name_of_book">Name of Book:</string>
     <string name="search">Search</string>
     <string name="clear">Clear</string>
-    <string name="empty_string"></string>
+    <!-- URLs -->
     <string name="root_url">http://10.0.2.2:8080/CollegeLibraryServer</string>
+    <string name="title_search_url">%1$s/search/title/%2$s</string>
+    <string name="author_search_url">%1$s/search/author/%2$s</string>
+    <string name="issues_and_fines_url">%1$s/search/issuesandfines/%2$s</string>
+
     <string name="book_text_field_as_title">Enter title of book:</string>
     <string name="book_text_field_as_author">Enter author\'s name:</string>
     <string name="search_history_file">com.akhterrasool.collegelibrary.SEARCH_HISTORY</string>
     <string name="notification_preference">com.akhterrasool.collegelibrary.NOTIFICATION</string>
     <string name="input_cannot_be_empty">Input cannot be empty.</string>
-    <string name="subscribe_text">Subscribe</string>
     <string name="notification_item_registration_success">You\'ll be notified about \'%1$s\'</string>
     <string name="notification_items_list_display_title">These are the following items you have registered:</string>
     <string name="nothing_to_display">Nothing to display.</string>
@@ -21,11 +24,15 @@
     <string name="notification_search_status_title">Search status for \'%1$s\'</string>
     <string name="notification_content_search_completed">Search completed. Tap to see results.</string>
     <string name="search_results_saved">Results saved.</string>
-    <string name="book_not_available">%1$s is not available.</string>
+    <string name="book_not_available">This book is not available.</string>
     <string name="search_service_module_name">Search Service</string>
     <string name="background_search_not_running">Background search not running. No items to process.</string>
-    <string name="notification_registration_activity_title_text">Search books in background</string>
     <string name="could_not_connect_to_server">Could not connect to server.</string>
+    <string name="ask_to_search_book_in_background">Would you like this app to search in background and update you whenever it\'s available?</string>
+    <string name="sure">Sure</string>
+    <string name="no_thanks">No, Thanks</string>
+    <string name="fine_amount_message">Total Fine: %1$f %2$s</string>
+    <string name="book_issued_result_activity_title">Book issued by [%1$s]</string>
 
     <string-array name="search_type_array">
         <item>Title</item>
