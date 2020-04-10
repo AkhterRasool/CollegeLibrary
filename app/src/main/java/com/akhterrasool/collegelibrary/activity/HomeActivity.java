@@ -9,6 +9,8 @@ import com.akhterrasool.collegelibrary.R;
 import com.akhterrasool.collegelibrary.app.App;
 import com.akhterrasool.collegelibrary.util.ActivityUtils;
 
+import static com.akhterrasool.collegelibrary.util.AppUtils.getResourceString;
+import static com.akhterrasool.collegelibrary.util.AppUtils.searchHistoryEntriesExist;
 import static com.akhterrasool.collegelibrary.util.AppUtils.showShort;
 
 public class HomeActivity extends AppCompatActivity {
@@ -25,7 +27,6 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         App.init(getApplicationContext());
-        App.setAppRunning(true);
 
         searchActivityButton = findViewById(R.id.search_activity_button);
         searchHistoryActivityButton = findViewById(R.id.search_history_activity_button);
@@ -37,37 +38,35 @@ public class HomeActivity extends AppCompatActivity {
                 ActivityUtils.startActivity(SearchActivity.class)
         );
 
-        searchHistoryActivityButton.setOnClickListener(view ->
-                ActivityUtils.startActivity(SearchHistoryActivity.class)
-        );
-
-        issuesAndFinesActivityButton.setOnClickListener(view ->
-                ActivityUtils.startActivity(IssuesAndFinesActivity.class)
-        );
-
-        notificationsModuleButton.setOnClickListener(view ->
-                ActivityUtils.startActivity(MainNotificationActivity.class)
-        );
-
-        clearSearchHistoryButton.setOnClickListener(view -> clearSearchHistory());
-    }
-
-    public void clearSearchHistory() {
-        if (App.searchHistoryEntriesExist()) {
-            boolean clearSuccessful = App.getSearchHistoryPreference().edit().clear().commit();
-            if (clearSuccessful) {
-                showShort("Search history was cleared successfully.");
+        searchHistoryActivityButton.setOnClickListener(view -> {
+            if (searchHistoryEntriesExist()) {
+                ActivityUtils.startActivity(SearchHistoryActivity.class);
             } else {
-                showShort("Failed to clear search history.");
+                showShort(getResourceString(R.string.nothing_to_display));
             }
-        } else {
-            showShort("There is no history to clear!");
+        });
+
+            issuesAndFinesActivityButton.setOnClickListener(view ->
+                    ActivityUtils.startActivity(IssuesAndFinesActivity.class)
+            );
+
+            notificationsModuleButton.setOnClickListener(view ->
+                    ActivityUtils.startActivity(MainNotificationActivity.class)
+            );
+
+            clearSearchHistoryButton.setOnClickListener(view -> clearSearchHistory());
+        }
+
+        public void clearSearchHistory () {
+            if (searchHistoryEntriesExist()) {
+                boolean clearSuccessful = App.getSearchHistoryPreference().edit().clear().commit();
+                if (clearSuccessful) {
+                    showShort("Search history was cleared successfully.");
+                } else {
+                    showShort("Failed to clear search history.");
+                }
+            } else {
+                showShort("There is no history to clear!");
+            }
         }
     }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        App.setAppRunning(false);
-    }
-}

@@ -38,10 +38,6 @@ public class App {
                 appContext.getString(R.string.notification_preference), Context.MODE_PRIVATE);
     }
 
-    public static boolean searchHistoryEntriesExist() {
-        return getSearchHistoryPreference().getAll().size() > 0;
-    }
-
     private static void createSearchNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = getResourceString(R.string.search_notification_channel_name);
@@ -58,13 +54,5 @@ public class App {
         if (context != null) {
             appContext = context;
         }
-    }
-
-    public static void setAppRunning(boolean isRunning) {
-        appRunning = isRunning;
-    }
-
-    public static boolean isAppRunning() {
-        return appRunning;
     }
 }

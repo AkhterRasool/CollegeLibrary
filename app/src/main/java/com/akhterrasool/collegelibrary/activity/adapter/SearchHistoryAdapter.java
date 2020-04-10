@@ -84,8 +84,7 @@ public class SearchHistoryAdapter extends RecyclerView.Adapter<SearchHistoryAdap
             dateTextView.setText(new Date(searchEntry.getTimeStamp()).toLocaleString());
             rootView.setOnClickListener(v ->
                 App.getContext().startActivity(
-                        new IntentBuilder()
-                                .setActivity(ResultActivity.class)
+                        new IntentBuilder(ResultActivity.class)
                                 .putExtra(ResultActivity.RESULT_ACTIVITY_RESPONSE_BODY, searchEntry.getValue())
                                 .putExtra(ResultActivity.RESULT_ACTIVITY_TITLE, searchEntry.getKey())
                                 .build())

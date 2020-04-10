@@ -6,6 +6,8 @@ import android.widget.Toast;
 import com.akhterrasool.collegelibrary.app.App;
 import com.akhterrasool.collegelibrary.service.SearchService;
 
+import static com.akhterrasool.collegelibrary.app.App.getSearchHistoryPreference;
+
 public class AppUtils {
 
     public static void showShort(String message) {
@@ -18,5 +20,8 @@ public class AppUtils {
 
     public static void startSearchService() {
         App.getContext().startService(new Intent(App.getContext(), SearchService.class));
+    }
+    public static boolean searchHistoryEntriesExist() {
+        return getSearchHistoryPreference().getAll().size() > 0;
     }
 }

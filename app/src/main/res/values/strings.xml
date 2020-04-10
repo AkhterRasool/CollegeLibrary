@@ -33,6 +33,7 @@
     <string name="no_thanks">No, Thanks</string>
     <string name="fine_amount_message">Total Fine: %1$f %2$s</string>
     <string name="book_issued_result_activity_title">Book issued by [%1$s]</string>
+    <string name="unable_to_parse_response">Unable to parse response from server.</string>
 
     <string-array name="search_type_array">
         <item>Title</item>

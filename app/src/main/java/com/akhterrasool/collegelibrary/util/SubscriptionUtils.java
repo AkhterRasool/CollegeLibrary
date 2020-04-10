@@ -22,10 +22,12 @@ public class SubscriptionUtils {
     }
 
     public static void addItemToSubscription(String input) {
-        synchronized (lock) {
-            subscriptions.add(input);
+        if (!subscriptions.contains(input)) {
+            synchronized (lock) {
+                subscriptions.add(input);
+            }
+            updateSubscriptions();
         }
-        updateSubscriptions();
     }
 
     private static void updateSubscriptions() {

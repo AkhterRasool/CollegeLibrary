@@ -11,8 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.akhterrasool.collegelibrary.R;
 import com.akhterrasool.collegelibrary.activity.adapter.SearchHistoryAdapter;
 
-import static com.akhterrasool.collegelibrary.app.App.searchHistoryEntriesExist;
-
 public class SearchHistoryActivity extends AppCompatActivity {
 
 
@@ -22,14 +20,12 @@ public class SearchHistoryActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_history);
-        if (searchHistoryEntriesExist()) {
-            View noDataToDisplayViewLayout = findViewById(R.id.no_data_display_layout);
-            noDataToDisplayViewLayout.setVisibility(View.GONE);
-            recyclerView = findViewById(R.id.my_recycler_view);
-            recyclerView.setHasFixedSize(true);
-            recyclerView.setLayoutManager(new LinearLayoutManager(this));
-            recyclerView.setAdapter(new SearchHistoryAdapter());
-        }
+        View noDataToDisplayViewLayout = findViewById(R.id.no_data_display_layout);
+        noDataToDisplayViewLayout.setVisibility(View.GONE);
+        recyclerView = findViewById(R.id.my_recycler_view);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(new SearchHistoryAdapter());
     }
 }
 

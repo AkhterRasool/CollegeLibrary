@@ -7,6 +7,7 @@ import com.akhterrasool.collegelibrary.activity.SearchActivity;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -18,8 +19,8 @@ import static com.akhterrasool.collegelibrary.util.AppUtils.showShort;
 public abstract class ClientRequest<T> implements ResponseHandler<T> {
 
     private static final String TAG = "clientrequest.ClientRequest";
-    private static final String CANNOT_CONNECT_TO_SERVER = getResourceString(R.string.could_not_connect_to_server);
     protected String url;
+    public static final ObjectMapper mapper = new ObjectMapper();
 
     public ClientRequest(String url) {
         this.url = url;
@@ -28,8 +29,8 @@ public abstract class ClientRequest<T> implements ResponseHandler<T> {
     public abstract Request getRequest();
 
     protected Response.ErrorListener getErrorHandler() {
-        Log.e(TAG, "getErrorHandler: Error occurred. Using Default error handler");
         Response.ErrorListener errorListener = error -> {
+            Log.e(TAG, "getErrorHandler: Error occurred. Using Default error handler");
             String message = null;
             try {
                 message = getConnectionFailedMessage(error);
@@ -38,7 +39,7 @@ public abstract class ClientRequest<T> implements ResponseHandler<T> {
                     message = errorData.get(JSON_MESSAGE_KEY).toString();
                 }
             } catch (JSONException exception) {
-                message = exception.getMessage();
+                message = getResourceString(R.string.unable_to_parse_response);
             }
             Log.e(SearchActivity.class.getName(), message);
             showShort(message);
@@ -48,6 +49,6 @@ public abstract class ClientRequest<T> implements ResponseHandler<T> {
 
     protected String getConnectionFailedMessage(VolleyError error) {
         return (error == null || error.networkResponse == null || error.networkResponse.data == null)
-                ? CANNOT_CONNECT_TO_SERVER : "";
+                ? getResourceString(R.string.could_not_connect_to_server) : "";
     }
 }
