@@ -40,11 +40,7 @@ public class SearchService extends IntentService {
             }
         }
 
-        if (App.isAppRunning()) {
-            notifyCompletionViaToastMessage();
-        } else {
-            notifyCompletionViaNotification();
-        }
+        notifyCompletionViaNotification();
         Log.i(TAG, "onHandleIntent: Service completed.");
         stopSelf();
     }

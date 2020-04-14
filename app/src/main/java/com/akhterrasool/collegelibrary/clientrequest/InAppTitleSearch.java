@@ -7,10 +7,8 @@ import com.akhterrasool.collegelibrary.app.model.SearchHistoryEntry;
 import com.akhterrasool.collegelibrary.exception.BookNotAvailableException;
 import com.android.volley.Response;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import static com.akhterrasool.collegelibrary.app.Constants.JSON_KEY_AUTHOR;
 import static com.akhterrasool.collegelibrary.util.ActivityUtils.startResultActivity;
 
 public class InAppTitleSearch extends AbstractTitleSearch {
@@ -32,7 +30,7 @@ public class InAppTitleSearch extends AbstractTitleSearch {
                 extractSearchHistoryEntry(response)
                         .ifPresent(entry -> {
                             save(entry);
-                            showInResultActivity(response, entry);
+                            showInResultActivity(entry);
                         });
             } catch (BookNotAvailableException e) {
                 promptBackgroundSearch();
@@ -40,14 +38,8 @@ public class InAppTitleSearch extends AbstractTitleSearch {
         };
     }
 
-    private void showInResultActivity(JSONObject response, SearchHistoryEntry entry) {
-        String author = null;
-        try {
-            author = response.getString(JSON_KEY_AUTHOR);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        String titleText = String.format("Locations for %s [%s]", entry.getKey(), author);
+    private void showInResultActivity(SearchHistoryEntry entry) {
+        String titleText = String.format("Locations for %s", entry.getKey());
         startResultActivity(titleText, entry.getValue());
     }
 

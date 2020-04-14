@@ -1,6 +1,5 @@
 package com.akhterrasool.collegelibrary.app.model;
 
-import com.akhterrasool.collegelibrary.app.BookSearchType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
@@ -10,15 +9,13 @@ public class SearchHistoryEntry {
     private static final ObjectMapper objectMapper = new ObjectMapper();
     private String key;
     private String value;
-    private BookSearchType bookSearchType;
     private long timeStamp;
 
     public SearchHistoryEntry() {}
 
-    public SearchHistoryEntry(String key, String value, BookSearchType bookSearchType) {
+    public SearchHistoryEntry(String key, String value) {
         this.key = key;
         this.value = value;
-        this.bookSearchType = bookSearchType;
         timeStamp = System.currentTimeMillis();
     }
 
@@ -28,10 +25,6 @@ public class SearchHistoryEntry {
 
     public String getValue() {
         return value;
-    }
-
-    public BookSearchType getBookSearchType() {
-        return bookSearchType;
     }
 
     public long getTimeStamp() {

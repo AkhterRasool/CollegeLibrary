@@ -3,7 +3,7 @@ package com.akhterrasool.collegelibrary.clientrequest;
 import com.akhterrasool.collegelibrary.app.model.SearchHistoryEntry;
 import com.android.volley.Response;
 
-import org.json.JSONArray;
+import org.json.JSONObject;
 
 import static com.akhterrasool.collegelibrary.util.ActivityUtils.startResultActivity;
 
@@ -14,7 +14,7 @@ public class InAppAuthorSearch extends AbstractAuthorSearch {
     }
 
     @Override
-    public Response.Listener<JSONArray> getResponseHandler() {
+    public Response.Listener<JSONObject> getResponseHandler() {
         return response ->
                 extractSearchHistoryEntry(response)
                         .ifPresent(entry -> {
