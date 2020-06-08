@@ -31,6 +31,7 @@ public class IntentBuilder {
     public Intent build() {
         Objects.requireNonNull(activity, "Activity cannot be null before building an intent");
         Intent intent = new Intent(App.getContext(), activity);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         extrasMap.forEach((key, value) -> intent.putExtra(key, value));
         return intent;
     }
