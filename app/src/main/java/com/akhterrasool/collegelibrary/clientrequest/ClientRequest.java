@@ -9,6 +9,8 @@ import com.android.volley.Response;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Objects;
+
 import static com.akhterrasool.collegelibrary.app.Constants.JSON_MESSAGE_KEY;
 import static com.akhterrasool.collegelibrary.util.AppUtils.showLong;
 
@@ -54,9 +56,12 @@ public abstract class ClientRequest<T> implements ResponseHandler<T> {
         Response.ErrorListener errorListener = error -> {
             String message = null;
             try {
+                Objects.requireNonNull(error, "Could not connect to server.");
+                Objects.requireNonNull(error.networkResponse, "Could not connect to server.");
+                Objects.requireNonNull(error.networkResponse.data, "Could not connect to server.");
                 JSONObject errorData = new JSONObject(new String(error.networkResponse.data));
                 message = errorData.get(JSON_MESSAGE_KEY).toString();
-            } catch (JSONException e) {
+            } catch (JSONException | NullPointerException e) {
                 e.printStackTrace();
             }
             Log.e(SearchActivity.class.getName(), message);
