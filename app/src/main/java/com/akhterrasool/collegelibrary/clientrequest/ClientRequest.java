@@ -62,6 +62,7 @@ public abstract class ClientRequest<T> implements ResponseHandler<T> {
                 JSONObject errorData = new JSONObject(new String(error.networkResponse.data));
                 message = errorData.get(JSON_MESSAGE_KEY).toString();
             } catch (JSONException | NullPointerException e) {
+                message = e.getMessage();
                 e.printStackTrace();
             }
             Log.e(SearchActivity.class.getName(), message);
